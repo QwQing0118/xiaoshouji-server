@@ -1,0 +1,18 @@
+# 数据，别传
+data/
+uploads/
+
+# 日志
+*.log
+
+# 截图
+shot*.png
+
+# 系统垃圾
+.DS_Store
+Thumbs.db
+node_modules/
+
+# 编辑器
+.vscode/
+.idea/

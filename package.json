@@ -1,0 +1,16 @@
+{
+  "name": "sm-server",
+  "version": "1.0.0",
+  "description": "小手机 · 一个人的聊天页面和后端",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js",
+    "test": "node e2e.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "private": true,
+  "license": "MIT"
+}
