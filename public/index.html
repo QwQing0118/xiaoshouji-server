@@ -23,8 +23,8 @@
   textarea,input{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
 html,body{margin:0;height:100%;overflow:hidden}
 body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif;
-  background:#E8E8E8;display:flex;align-items:center;justify-content:center;color:var(--brown)}
-#phone{position:relative;width:100%;max-width:430px;height:100vh;
+  background:#F0EFEC;display:flex;align-items:center;justify-content:center;color:var(--brown)}
+#phone{position:relative;width:100%;max-width:430px;height:100vh;height:100dvh;
   background:var(--cream);overflow:hidden;display:flex;flex-direction:column}
 @media(min-width:520px) and (min-height:640px){
   #phone{border-radius:34px;height:min(92vh,900px);box-shadow:0 24px 70px -30px rgba(0,0,0,.35)}
@@ -33,7 +33,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
   background:
     radial-gradient(120% 60% at 12% 0%,rgba(238,238,238,.9) 0%,rgba(238,238,238,0) 62%),
     radial-gradient(120% 70% at 78% 100%,rgba(232,232,232,.8) 0%,rgba(232,232,232,0) 66%),
-    linear-gradient(180deg,#FFFFFF 0%,#FCFCFC 52%,#F6F6F6 100%)}
+    linear-gradient(180deg,#FFFFFF 0%,#FDFCFA 50%,#F7F6F2 100%)}
 #sb{position:relative;z-index:6;flex:0 0 auto;height:42px;padding:0 22px;
   display:flex;align-items:center;justify-content:space-between;
   font-size:12.5px;font-weight:600;color:var(--brown);letter-spacing:.3px}
@@ -60,85 +60,116 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 .pill{display:inline-flex;align-items:center;height:22px;padding:0 10px;border-radius:11px;
   background:#EFEFEF;color:#5A5A5A;
   font-size:11px;font-weight:500;white-space:nowrap}
-/* ===== 主页：About me 版式（无自建顶栏） ===== */
-#pg-home{display:flex;flex-direction:column;overflow:hidden;background:#FFFFFF;
-  padding:0 18px}
+/* ===== 主页（ins 版） ===== */
+#pg-home{display:flex;flex-direction:column;overflow:hidden;background:transparent;
+  padding:0 24px 2px}
 
-/* 顶部工具行：菜单 | 时间 | 齿轮 */
-.hmTop{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;
-  height:44px;padding:4px 0 0}
-.hmTop .hb{border:none;background:transparent;padding:0;
-  color:#8A8A8A;display:flex;align-items:center;gap:7px}
-.hmTop .hb:active{opacity:.5}
-.hmTop .hmTm{font-size:11px;color:#A8A8A8;font-weight:300;letter-spacing:.5px}
+/* 顶部：☰ | 时间 | ⚙ */
+.hmTop{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;height:44px}
+.hmTop .hb{border:none;background:transparent;padding:0;color:#9A9A9A;display:flex;align-items:center}
+.hmTop .hb:active{opacity:.45}
+.hmTop .hmTm{font-family:Georgia,"Songti SC",serif;font-style:italic;
+  font-size:11.5px;letter-spacing:2.4px;color:#B4B4B4}
 
-/* 头像行：头像 + @ID + 签名 */
-.hmMe{flex:0 0 auto;display:flex;align-items:center;gap:12px;padding:8px 0 16px}
-.hmMe .meAv{width:58px;height:58px;flex:0 0 auto;border-radius:14px;
-  background:#EDEDED;background-size:cover;background-position:center;
+/* ① 头像 · 名字 · 签名 */
+.hmMe{flex:0 0 auto;display:flex;align-items:center;gap:15px;padding:2px 0 2px}
+.hmMe .meAv{width:66px;height:66px;flex:0 0 auto;border-radius:50%;
+  background:#EFEEEC;background-size:cover;background-position:center;
   display:flex;align-items:center;justify-content:center;
-  font-size:19px;font-weight:500;color:#B0B0B0}
+  font-size:21px;font-weight:400;color:#B6B6B6;
+  border:2.5px solid #FFFFFF;
+  box-shadow:0 5px 16px -8px rgba(0,0,0,.28),0 0 0 .6px rgba(0,0,0,.05)}
 .hmMe .meTxt{flex:1 1 auto;min-width:0}
-.hmMe .meAt{font-size:14px;color:#3A3A3A;font-weight:500;letter-spacing:.2px}
-.hmMe #hmNameRow{display:flex;align-items:center;gap:6px}
-.hmMe #hmName{font-size:15px;font-weight:600;color:#1F1F1F}
-.hmMe .meEdit{font-size:9px;color:#B8B8B8;border:1px solid #E4E4E4;
-  border-radius:5px;padding:1px 4px;line-height:1.2}
-.hmMe .meSign{font-size:11px;color:#A0A0A0;margin-top:4px;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hmNameRow{display:flex;align-items:baseline;gap:7px;min-width:0}
+.hmName{font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,serif;font-size:19.5px;font-weight:600;
+  color:#1B1B1B;letter-spacing:.6px;white-space:nowrap;
+  border-bottom:1px solid transparent;padding-bottom:1px}
+.hmName:active{opacity:.55}
+.hmAt{font-size:10.5px;color:#BEBEBE;letter-spacing:.5px;font-family:Georgia,serif;
+  font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hmSign{margin-top:8px;font-size:11.5px;color:#8C8C8C;line-height:1.5;letter-spacing:.2px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;
+  display:inline-block;border-bottom:1px solid rgba(0,0,0,.10);padding-bottom:2px}
+.hmSign:active{opacity:.55;border-bottom-color:rgba(0,0,0,.3)}
+/* 就地编辑 */
+.ine-in{font-family:inherit;font-size:inherit;font-weight:inherit;color:#1B1B1B;
+  background:transparent;border:none;outline:none;border-bottom:1px solid rgba(0,0,0,.35);
+  padding:0 0 2px;margin:0;-webkit-user-select:text;user-select:text;letter-spacing:inherit}
 
-/* 中部：横向滑动的数据卡 */
-.hmGrid{flex:0 0 auto;display:flex;gap:12px;padding:0 0 16px;
-  overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;
-  scrollbar-width:none}
-.hmGrid::-webkit-scrollbar{display:none}
-.hmGrid .gcard{flex:0 0 46%;min-width:0;position:relative;
-  height:104px;border:1px solid #E4E4E4;border-radius:12px;background:#FFFFFF;
-  padding:12px 14px;display:flex;flex-direction:column;justify-content:space-between;
-  transition:transform .16s}
-.hmGrid .gcard:active{transform:scale(.97)}
-.hmGrid .gin{position:absolute;inset:6px;border:1px solid #F0F0F0;border-radius:6px;
-  pointer-events:none}
-.hmGrid .gTag{font-size:10px;color:#A0A0A0;letter-spacing:.6px;position:relative;z-index:1}
-.hmGrid .gNum{font-size:26px;font-weight:700;color:#1F1F1F;line-height:1;
-  font-family:Georgia,serif;letter-spacing:-.5px;position:relative;z-index:1}
-.hmGrid .gUnit{font-size:10px;color:#B0B0B0;position:relative;z-index:1}
+/* ② 纪念日 */
+.hmAnniv{flex:0 0 auto;position:relative;padding:26px 0 4px}
+.hmAnniv .aKick{font-family:Georgia,serif;font-style:italic;font-size:9.5px;
+  letter-spacing:3.6px;color:#C4C4C4;text-transform:uppercase}
+.hmAnniv .aNum{display:inline-block;vertical-align:bottom;font-family:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,serif;font-weight:700;
+  font-size:64px;line-height:.94;letter-spacing:-1.5px;margin-top:6px;
+  background:linear-gradient(165deg,#2E2E2E 4%,#7E7E7E 46%,#CFCFCF 96%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  -webkit-text-fill-color:transparent}
+.hmAnniv .aUnit{font-family:Georgia,serif;font-style:italic;font-size:12px;
+  color:#ADADAD;letter-spacing:1.6px;margin-left:10px}
+.hmAnniv .aSub{font-size:10px;color:#C0C0C0;letter-spacing:.8px;margin-top:2px}
+.hmAnniv .aLine{position:absolute;right:2px;top:24px;width:1px;height:74px;
+  background:linear-gradient(180deg,rgba(0,0,0,.28),rgba(0,0,0,.02))}
+.hmAnniv .aVert{position:absolute;right:9px;top:26px;font-size:9px;color:#C6C6C6;
+  letter-spacing:3px;writing-mode:vertical-rl;line-height:1}
 
-/* 撑开中部：让气泡与图文卡贴到底 */
-#pg-home .hmSpacer{flex:1 1 auto;min-height:8px}
+/* ③ 三个入口 */
+.hmEntries{flex:0 0 auto;display:flex;gap:12px;padding:16px 0 0}
+.entItem{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:flex-start;
+  gap:7px;border:none;background:transparent;padding:0;text-align:left}
+.entIco{width:46px;height:46px;border-radius:15px;background:#F3F2F0;
+  display:flex;align-items:center;justify-content:center;color:#3C3C3C;
+  transition:transform .18s ease,background .2s}
+.entItem:active .entIco{transform:scale(.9);background:#ECEAE7}
+.entCn{font-size:11.5px;color:#3A3A3A;letter-spacing:.5px}
+.entEn{font-family:Georgia,serif;font-style:italic;font-size:8.5px;color:#C2C2C2;
+  letter-spacing:1.4px;margin-top:-3px}
 
-/* 靠右深色气泡 */
-.hmBub1{flex:0 0 auto;display:flex;align-items:flex-end;justify-content:flex-end;
-  gap:9px;padding:0 0 16px}
-.hmBub1 .b1txt{width:58%;min-height:44px;padding:10px 14px;
-  border-radius:19px 19px 4px 19px;
-  background:#3A3A3A;color:#FFFFFF;font-size:12.5px;line-height:1.5}
-.hmBub1 .b1txt:empty{background:#3A3A3A}
-.hmBub1 .b1av{width:32px;height:32px;flex:0 0 auto;border-radius:50%;
-  background:#BFBFBF;background-size:cover;background-position:center;
-  display:flex;align-items:center;justify-content:center;
-  font-size:13px;font-weight:600;color:#3A3A3A;line-height:1}
+/* ④ 唱片 · 歌词 */
+.hmSpacer{flex:1 1 auto;min-height:6px}
+.hmMusic{flex:0 0 auto;display:flex;align-items:center;gap:18px;padding:4px 0 2px}
+.hmDiscWrap{width:104px;height:104px;flex:0 0 auto;position:relative}
+.hmDisc{position:absolute;inset:0;border-radius:50%;
+  background:
+    repeating-radial-gradient(circle at 50% 50%,rgba(255,255,255,.055) 0 .6px,transparent .6px 2.2px),
+    radial-gradient(circle at 34% 28%,#333 0,#1D1D1D 46%,#141414 100%);
+  box-shadow:0 16px 30px -18px rgba(0,0,0,.6),inset 0 0 0 1px rgba(255,255,255,.07);
+  animation:discSpin 22s linear infinite}
+.hmDisc.paused{animation-play-state:paused}
+.hmDisc::before{content:"";position:absolute;inset:34%;border-radius:50%;
+  background:linear-gradient(150deg,#F7F6F4,#DCDAD6 70%,#CFCCC7);
+  box-shadow:inset 0 0 0 .6px rgba(0,0,0,.10),0 1px 3px rgba(0,0,0,.2)}
+.hmDisc::after{content:"";position:absolute;left:50%;top:50%;width:7px;height:7px;
+  margin:-3.5px 0 0 -3.5px;border-radius:50%;background:#FFFFFF;
+  box-shadow:0 0 0 1px rgba(0,0,0,.10)}
+@keyframes discSpin{to{transform:rotate(360deg)}}
 
-/* 靠左图文卡 */
-.hmBub2{flex:0 0 auto;display:flex;align-items:center;gap:9px;padding:0 0 20px}
-.hmBub2 .b2av{width:30px;height:30px;flex:0 0 auto;border-radius:50%;
-  background:#9E9E9E;
-  display:flex;align-items:center;justify-content:center}
-.hmBub2 .b2card{flex:0 0 32%;height:92px;border-radius:17px;background:#F0F0F0}
-.hmBub2 .b2box{flex:1 1 auto;min-width:0;height:92px;
-  display:flex;flex-direction:column;justify-content:center}
-.b2box{flex:1 1 auto;min-width:0;height:92px;
-  display:flex;flex-direction:column;justify-content:center}
-.hmBub2 .b2sp{font-size:10.5px;color:#9E9E9E;letter-spacing:.2px;line-height:1.35}
-.hmBub2 .b2hd{font-size:19px;font-weight:600;color:#1F1F1F;
-  letter-spacing:-.2px;line-height:1.3;margin:2px 0 5px}
-.hmBub2 .b2hd span{font-family:Georgia,serif;font-weight:700}
-.hmBub2 .b2ds{font-size:9.5px;color:#909090;line-height:1.32;letter-spacing:.1px}
-.hmBub2 .b2ds b{font-weight:600;color:#606060}
-.hmBub2 .b2add{width:28px;height:28px;flex:0 0 auto;border-radius:50%;border:none;
-  margin-top:2px;background:#E6E6E6;color:#2E2E2E;font-size:16px;font-weight:500;
-  line-height:28px;text-align:center;padding:0}
-.hmBub2 .b2add:active{transform:scale(.9)}
+.hmLyr{flex:1 1 auto;min-width:0;height:108px;overflow:hidden;position:relative;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 26%,#000 74%,transparent 100%);
+  mask-image:linear-gradient(180deg,transparent 0,#000 26%,#000 74%,transparent 100%)}
+.hmLyrTilt{transform:rotate(-9deg);transform-origin:left center;width:100%}
+.hmLyr ul{list-style:none;margin:0;padding:0;width:100%;
+  transition:transform .7s cubic-bezier(.22,.9,.28,1)}
+.hmLyr li{height:27px;line-height:27px;font-size:12px;color:#B9B9B9;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  transform-origin:left center;
+  transition:color .55s,transform .7s cubic-bezier(.22,.9,.28,1),opacity .55s,font-size .55s}
+.hmLyr li.cur{color:#1F1F1F;font-weight:600;font-size:13.5px}
+
+/* 装饰花字 */
+.hmQuote{flex:0 0 auto;display:flex;align-items:center;justify-content:center;
+  gap:11px;padding:16px 0 10px}
+.hmQuote i{width:30px;height:1px;flex:0 0 auto;
+  background:linear-gradient(90deg,transparent,#D6D4D0)}
+.hmQuote i:last-child{background:linear-gradient(90deg,#D6D4D0,transparent)}
+.hmQuote span{font-family:Georgia,serif;font-style:italic;font-size:13px;
+  letter-spacing:1.2px;color:#A8A5A0}
+
+/* 占位空页 */
+.phEmpty{flex:1 1 auto;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:8px;color:#C4C4C4}
+.phEmpty .phEn{font-family:Georgia,serif;font-style:italic;font-size:15px;letter-spacing:2px}
+.phEmpty .phCn{font-size:11px;letter-spacing:1px}
 
 /* ===== 聊天页 ===== */
 #pg-chat .nav{height:58px;border-bottom:1px solid var(--line)}
@@ -272,46 +303,35 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 
 
 /* ===== 底栏四格 ===== */
-#tabbar{position:relative;z-index:7;flex:0 0 auto;padding:0 20px 15px}
+#tabbar{position:relative;z-index:7;flex:0 0 auto;padding:0 20px 14px}
 #tabbar .inner{
-  height:66px;
-  border-radius:26px;
-  background:#FFFFFF;
-  border:1px solid #E4E4E4;
-  box-shadow:0 10px 26px -18px rgba(0,0,0,.3);
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  display:flex;align-items:center;padding:0 4px;position:relative;
+  height:64px;border-radius:23px;position:relative;
+  background:rgba(255,255,255,.9);
+  border:.5px solid rgba(0,0,0,.06);
+  box-shadow:0 14px 30px -24px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.95);
+  display:flex;align-items:center;padding:0 4px;
 }
 #tabbar .tb{
-  flex:1 1 0;min-width:0;height:58px;border:none;background:transparent;
+  flex:1 1 0;min-width:0;height:56px;border:none;background:transparent;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:4px;color:#A8A8A8;padding:0;border-radius:20px;
-  transition:color .2s,transform .16s;
+  gap:5px;color:#B6B6B6;padding:0;border-radius:18px;
+  transition:color .22s,transform .16s;
 }
-#tabbar .tb svg{display:block;flex:0 0 auto;transition:transform .22s cubic-bezier(.3,1.4,.5,1)}
-#tabbar .tb span{
-  font-size:11.5px;line-height:1;letter-spacing:.4px;font-weight:500;
-  white-space:nowrap;opacity:1;max-width:none;margin:0;
-  transition:font-weight .2s;
-}
-#tabbar .tb.on{background:transparent;color:#2E2E2E}
-#tabbar .tb.on span{font-weight:600;letter-spacing:.5px}
-#tabbar .tb.on svg{
-  transform:translateY(-1.2px) scale(1.04);
-  filter:none;
-}
-#tabbar .tb:active{transform:scale(.94)}
-/* 两侧小翅膀 */
-#tabbar .wing{
+#tabbar .tb svg{display:block;flex:0 0 auto;transition:transform .24s cubic-bezier(.3,1.4,.5,1)}
+#tabbar .tb span{font-size:10.5px;line-height:1;letter-spacing:.8px;font-weight:400;
+  white-space:nowrap;transition:font-weight .2s,letter-spacing .2s}
+#tabbar .tb.on{color:#1E1E1E}
+#tabbar .tb.on span{font-weight:600;letter-spacing:1px}
+#tabbar .tb.on svg{transform:translateY(-1.5px) scale(1.06)}
+#tabbar .tb:active{transform:scale(.93)}
+/* 两侧云朵（手绘细线） */
+#tabbar .cloud{
   position:absolute;pointer-events:none;z-index:3;
-  width:34px;height:29px;top:50%;margin-top:-15px;opacity:.92;
+  width:46px;height:30px;top:50%;margin-top:-15px;opacity:.95;
 }
-#tabbar .wing svg{display:block;width:100%;height:100%;overflow:visible;
-  filter:none}
-/* 左边这片：探出框的左沿 */
-#tabbar .w1{left:-15px}
-/* 右边这片：水平镜像，探出框的右沿 */
-#tabbar .w2{right:-15px;transform:scaleX(-1)}
+#tabbar .cloud svg{display:block;width:100%;height:100%;overflow:visible}
+#tabbar .cl1{left:-19px}
+#tabbar .cl2{right:-19px;transform:scaleX(-1)}
 #toast{position:fixed;left:50%;bottom:25%;transform:translateX(-50%) translateY(6px);
   background:rgba(30,30,30,.94);color:#fff;font-size:12.5px;padding:9px 16px;border-radius:13px;
   opacity:0;pointer-events:none;transition:opacity .24s,transform .24s;z-index:9999;
@@ -372,47 +392,53 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
     <div class="page on" id="pg-home">
       <div class="hmTop">
         <button class="hb" id="hmMenu">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="4" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="12" cy="20" r="1.7"/></svg>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M3.6 7h16.8M3.6 12h16.8M3.6 17h16.8"/></svg>
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3.8 7.2h16.4M3.8 12h16.4M3.8 16.8h10.2"/></svg>
         </button>
-        <button class="hb" id="hmGear"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.1"/><path d="M12 2.8v2.2M12 19v2.2M2.8 12H5M19 12h2.2M5.5 5.5l1.6 1.6M16.9 16.9l1.6 1.6M18.5 5.5l-1.6 1.6M7.1 16.9l-1.6 1.6"/></svg></button>
+        <div class="hmTm" id="hmClock">21:22</div>
+        <button class="hb" id="hmGear"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.1"/><path d="M12 2.8v2.2M12 19v2.2M2.8 12H5M19 12h2.2M5.5 5.5l1.6 1.6M16.9 16.9l1.6 1.6M18.5 5.5l-1.6 1.6M7.1 16.9l-1.6 1.6"/></svg></button>
       </div>
 
-      <div class="hmMe" id="btnEditProfile" style="cursor:pointer;position:relative" title="点击编辑个人与伴侣资料">
+      <div class="hmMe" id="btnEditProfile" style="cursor:pointer">
         <div class="meAv" id="homeAvMe">青</div>
         <div class="meTxt">
-          <div style="display:flex;align-items:center;gap:6px">
-            <div class="meAt" id="hmId">@qing</div>
-            <span style="font-size:10px;opacity:.5;border:1px solid currentColor;border-radius:6px;padding:0 4px">改资料</span>
+          <div class="hmNameRow">
+            <span class="hmName" id="hmName">青青</span>
+            <span class="hmAt" id="hmId">@qing</span>
           </div>
-          <div class="meSign" id="hmSign">泊在青山里</div>
+          <div class="hmSign" id="hmSign">泊在青山里</div>
         </div>
       </div>
 
-      <div class="hmGrid" id="hmRail">
-        <div class="gcard" data-card="0"><div class="gin"></div><div class="gTag">在一起</div><div class="gNum" id="hmDays2">1</div><div class="gUnit">天</div></div>
-        <div class="gcard" data-card="2"><div class="gin"></div><div class="gTag">写过</div><div class="gNum" id="hmDy2">0</div><div class="gUnit">篇</div></div>
+      <div class="hmAnniv">
+        <div class="aKick">Together with</div>
+        <div><span class="aNum" id="hmDays2">1</span><span class="aUnit">days</span></div>
+        <div class="aSub" id="hmSubTxt">从今天开始算</div>
+        <span class="aLine"></span><span class="aVert">SINCE</span>
+      </div>
+
+      <div class="hmEntries">
+        <button class="entItem" data-go="chat">
+          <span class="entIco"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.4 11.8c0 4.1-3.8 7.3-8.4 7.3-.9 0-1.8-.1-2.6-.4L5 20.3l1-3.4c-1.3-1.4-2.4-3.1-2.4-5.1 0-4.1 3.8-7.3 8.4-7.3s8.4 3.2 8.4 7.3z"/></svg></span>
+          <span class="entCn">聊天</span><span class="entEn">Chat</span>
+        </button>
+        <button class="entItem" data-go="mem">
+          <span class="entIco"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 3.6h8.6L18.6 7v13.4H6.2z"/><path d="M9 8.6h6M9 12h6M9 15.4h3.6"/></svg></span>
+          <span class="entCn">记录</span><span class="entEn">Journal</span>
+        </button>
+        <button class="entItem" id="hmTools">
+          <span class="entIco"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><rect x="3.6" y="3.6" width="6.6" height="6.6" rx="1.8"/><rect x="13.8" y="3.6" width="6.6" height="6.6" rx="1.8"/><rect x="3.6" y="13.8" width="6.6" height="6.6" rx="1.8"/><rect x="13.8" y="13.8" width="6.6" height="6.6" rx="1.8"/></svg></span>
+          <span class="entCn">工具</span><span class="entEn">Tools</span>
+        </button>
       </div>
 
       <div class="hmSpacer"></div>
 
-      <div class="hmBub1" id="hmBub1">
-        <div class="b1txt" id="hmBubTxt"></div>
-        <div class="b1av" id="heroLin">林</div>
+      <div class="hmMusic">
+        <div class="hmDiscWrap"><div class="hmDisc" id="hmDisc"></div></div>
+        <div class="hmLyr"><div class="hmLyrTilt"><ul id="hmLyrics"></ul></div></div>
       </div>
 
-      <div class="hmBub2">
-        <div class="b2av" id="hmMyAv">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="#FFFFFF"><circle cx="12" cy="8.6" r="3.6"/><path d="M4.6 20.4c.8-3.6 3.7-5.6 7.4-5.6s6.6 2 7.4 5.6z"/></svg>
-        </div>
-        <div class="b2card" id="hmCard" data-go="diary"></div>
-        <div class="b2box" data-go="chat">
-          <div class="b2sp">和我们在一起的</div>
-          <div class="b2hd"><span id="heroDays">1</span>天.</div>
-          <div class="b2ds"><span id="hmSubTxt">从今天开始算</span>，说过 <b id="stMsg">0</b> 句，<br>写过 <b id="stDy">0</b> 篇。</div>
-        </div>
-        <button class="b2add" id="hmAdd">+</button>
-      </div>
+      <div class="hmQuote"><i></i><span id="hmQuote">Can I get a kiss</span><i></i></div>
     </div>
 
     <div class="page" id="pg-chat">
@@ -498,6 +524,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
           <button type="button" id="btnAddInsight" class="setBtnSec" style="width:100%;margin-top:6px;padding:9px;border-radius:10px">+ 记一条觉察</button>
         </div>
       </div>
+    </div>
+
+    <div class="page" id="pg-music">
+      <div class="nav">
+        <button class="nb" data-back="1">‹</button>
+        <div class="mid"><div class="t1">音乐</div><div class="t2">music</div></div>
+      </div>
+      <div class="phEmpty"><div class="phEn">coming next</div><div class="phCn">这一页下一步做</div></div>
+    </div>
+
+    <div class="page" id="pg-theme">
+      <div class="nav">
+        <button class="nb" data-back="1">‹</button>
+        <div class="mid"><div class="t1">主题</div><div class="t2">appearance</div></div>
+      </div>
+      <div class="phEmpty"><div class="phEn">coming next</div><div class="phCn">这一页下一步做</div></div>
     </div>
 
     <div class="page" id="pg-settings">
@@ -639,30 +681,32 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 
   <div id="tabbar">
     <div class="inner">
-      <div class="wing w1"><svg><use href="#ic-wing"/></svg></div>
-      <div class="wing w2"><svg><use href="#ic-wing"/></svg></div>
-      <button class="tb" data-tab="chat"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M20 11.3c0 4.1-3.6 7.4-8 7.4-1 0-2-.2-2.9-.5l-3.4 1.4.9-3.1C5.6 15.3 5 13.4 5 11.3c0-4.1 3.6-7.4 8-7.4s7 3.3 7 7.4z"/>
-          <path d="M9.2 10.2h.01M12 10.2h.01M14.8 10.2h.01" stroke-width="1.9"/>
-        </svg><span>聊天</span></button>
-      <button class="tb" data-tab="mem">
-          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M5.4 4.8c2.2-.9 4.4-.9 6.6.5v13.4c-2.2-1.4-4.4-1.4-6.6-.5z"/>
-          <path d="M18.6 4.8c-2.2-.9-4.4-.9-6.6.5v13.4c2.2-1.4 4.4-1.4 6.6-.5z"/>
-          <path d="M12 5.3v13.4"/>
-          <path d="M7.6 8.6h2.4M7.6 11.4h2.4M14 8.6h2.4M14 11.4h2.4" stroke-width="1.3"/>
-        </svg>
-        <span>记忆</span></button>
-      <button class="tb" data-tab="settings"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="3.2"/>
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-        </svg><span>设置</span></button>
-      <button class="tb on" data-tab="home"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+      <div class="cloud cl1"><svg viewBox="0 0 60 34" fill="none" stroke="#8E8E8E" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round"><path d="M18 28.4c-7.4 0-12.6-4.4-12.6-10.2S10.4 8 16.4 8c.7 0 1.4.06 2 .18C19.9 4.2 24.2 1.6 29.3 1.6c6.2 0 11.3 3.5 12.6 8.2 5.9.4 10.4 4.2 10.4 9.2 0 5.2-4.6 9.4-11 9.4H18z"/></svg></div>
+      <div class="cloud cl2"><svg viewBox="0 0 60 34" fill="none" stroke="#8E8E8E" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round"><path d="M18 28.4c-7.4 0-12.6-4.4-12.6-10.2S10.4 8 16.4 8c.7 0 1.4.06 2 .18C19.9 4.2 24.2 1.6 29.3 1.6c6.2 0 11.3 3.5 12.6 8.2 5.9.4 10.4 4.2 10.4 9.2 0 5.2-4.6 9.4-11 9.4H18z"/></svg></div>
+      <button class="tb on" data-tab="home">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M3.9 10.4 12 3.8l8.1 6.6"/>
           <path d="M5.6 9.2v10.2c0 .5.4.9.9.9h11c.5 0 .9-.4.9-.9V9.2"/>
           <path d="M9.8 20.3v-5.1c0-.5.4-.9.9-.9h2.6c.5 0 .9.4.9.9v5.1"/>
-          <circle cx="12" cy="10.6" r="0.9" stroke-width="1.2" opacity=".55"/>
-        </svg><span>主页</span></button>
+        </svg><span>桌面</span></button>
+      <button class="tb" data-tab="music">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9.4 17.4V6.1l9.4-2.1v11.2"/>
+          <ellipse cx="7.2" cy="18" rx="2.3" ry="1.9"/>
+          <ellipse cx="16.6" cy="15.6" rx="2.3" ry="1.9"/>
+        </svg><span>音乐</span></button>
+      <button class="tb" data-tab="mem">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5.6 4.4h4.8c1 0 1.6.7 1.6 1.6v13.2c0-.9-.6-1.6-1.6-1.6H5.6z"/>
+          <path d="M18.4 4.4h-4.8c-1 0-1.6.7-1.6 1.6v13.2c0-.9.6-1.6 1.6-1.6h4.8z"/>
+        </svg><span>记忆</span></button>
+      <button class="tb" data-tab="theme">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3.4c4.9 0 8.7 3.6 8.7 8.2 0 2.4-1.7 3.6-3.5 3.6h-1.6c-1 0-1.7.7-1.7 1.6 0 .4.2.8.4 1.1.2.3.3.7.3 1 0 .9-.8 1.6-2.1 1.6-4.9 0-8.9-3.9-8.9-8.7S7.1 3.4 12 3.4z"/>
+          <circle cx="8.6" cy="10.2" r="1.1" fill="currentColor" stroke="none"/>
+          <circle cx="12.4" cy="7.6" r="1.1" fill="currentColor" stroke="none"/>
+          <circle cx="16.2" cy="10" r="1.1" fill="currentColor" stroke="none"/>
+        </svg><span>主题</span></button>
     </div>
   </div>
 </div>
@@ -1357,7 +1401,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
   setTimeout(paintNet, 1200);
 
   /* ===== 页面切换（唯一一处路由） ===== */
-  var PAGES = ["home","chat","mem","settings"];
+  var PAGES = ["home","chat","mem","settings","music","theme"];
   var cur = "home";
   function go(name){
     if(PAGES.indexOf(name) < 0) name = "home";
@@ -1439,7 +1483,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
     var dysub=$("duoDySub"); if(dysub) dysub.textContent = dys.length ? ("已经写了 "+dys.length+" 篇") : "写给以后看";
     /* 头像 */
     var hm2=$("homeAvMe"); if(hm2){ hm2.textContent = P.meImg ? "" : P.face; hm2.style.backgroundImage = P.meImg?("url("+P.meImg+")"):""; }
-    var idEl=$("hmId"); if(idEl) idEl.textContent = "@"+(P.meName || P.id || "qing");
+    var nnEl=$("hmName"); if(nnEl) nnEl.textContent = P.meName || P.name || "青青";
+    var idEl=$("hmId"); if(idEl) idEl.textContent = "@"+(P.id || "qing");
     var sgEl=$("hmSign"); if(sgEl) sgEl.textContent = P.meSign || P.sign || P.sig || "泊在青山里";
     var h1=$("heroMe"); if(h1){ h1.textContent = P.meImg ? "" : P.face; h1.style.backgroundImage = P.meImg?("url("+P.meImg+")"):""; }
     var h2b=$("heroLin"); if(h2b){ h2b.textContent = P.linImg ? "" : P.linFace; h2b.style.backgroundImage = P.linImg?("url("+P.linImg+")"):""; }
@@ -3871,7 +3916,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
   };
 
   var av=$("homeAvMe");
-  if(av) av.onclick = function(){
+  if(av) av.onclick = function(e){
+    if(e && e.stopPropagation) e.stopPropagation();
     sheet("头像", [
       ["选一张图", function(){ pickImg(function(d){ P.meImg=d; save(); paintHome(); toast("换好了"); }); }],
       ["用字代替", function(){ ask("写一个字", P.face||"青", function(v){ P.meImg=""; P.face=v||"青"; save(); paintHome(); }); }]
@@ -3880,18 +3926,114 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 
 
 
-  var id=$("hmId");
-  if(id) id.onclick = function(){
-    ask("@ 后面的名字", P.id||"qing", function(v){ P.id=(v||"qing").replace(/^@/,""); save(); paintHome(); });
+  var idH=$("hmId");
+  if(idH) idH.onclick = function(e){
+    e.stopPropagation();
+    inlineEdit(idH, P.id||"qing", function(v){ P.id=(v||"qing").replace(/^@/,""); save(); paintHome(); }, 18);
   };
 
+  /* —— 就地编辑（点一下直接改，回车/失焦保存，Esc 取消） —— */
+  function inlineEdit(el, initial, done, maxLen){
+    if(!el || el.__ie) return;
+    var old = el.textContent || "";
+    var cs = getComputedStyle(el);
+    var inp = document.createElement("input");
+    inp.type = "text";
+    inp.value = initial || "";
+    inp.maxLength = maxLen || 24;
+    inp.className = "ine-in";
+    inp.style.fontSize = cs.fontSize;
+    inp.style.fontWeight = cs.fontWeight;
+    inp.style.letterSpacing = cs.letterSpacing;
+    inp.style.color = "#1B1B1B";
+    inp.style.width = Math.max(72, (el.offsetWidth || 72) + 34) + "px";
+    el.__ie = 1;
+    el.style.display = "none";
+    el.parentNode.insertBefore(inp, el.nextSibling);
+    setTimeout(function(){ try{ inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length); }catch(e){} }, 40);
+    var fin = false;
+    function end(ok){
+      if(fin) return; fin = true;
+      var v = String(inp.value || "").trim();
+      if(inp.parentNode) inp.parentNode.removeChild(inp);
+      el.style.display = "";
+      el.__ie = 0;
+      if(ok && v && v !== old) done(v);
+      else paintHome();
+    }
+    inp.onblur = function(){ end(true); };
+    inp.onkeydown = function(e){
+      if(e.key === "Enter"){ e.preventDefault(); end(true); }
+      else if(e.key === "Escape"){ e.preventDefault(); end(false); }
+    };
+  }
+  window.__smInlineEdit = inlineEdit;
+
   var sg=$("hmSign");
-  if(sg) sg.onclick = function(){
-    ask("写句签名", P.sign||"", function(v){ P.sign=v||""; save(); paintHome(); });
+  if(sg) sg.onclick = function(e){
+    e.stopPropagation();
+    inlineEdit(sg, P.meSign || P.sign || "", function(v){
+      P.meSign = v; P.sign = v; save(); paintHome();
+    }, 30);
+  };
+
+  /* 昵称 */
+  var nmH=$("hmName");
+  if(nmH) nmH.onclick = function(e){
+    e.stopPropagation();
+    inlineEdit(nmH, P.meName || P.name || "青青", function(v){
+      P.meName = v; P.name = v; save(); paintHome();
+    }, 14);
   };
 
   var lin=$("heroLin");
   if(lin) lin.onclick = function(){ go("chat"); };
+
+  /* 工具入口 */
+  var _ht=$("hmTools");
+  if(_ht) _ht.onclick = function(){
+    sheet("工具", [
+      ["导入记忆", function(){ openMemImportModal(); }],
+      ["数据备份", function(){ go("settings"); }],
+      ["设置", function(){ go("settings"); }]
+    ]);
+  };
+
+  /* 唱片区：假歌词轮播（以后接真音乐调 window.setHomeLyric(lines, idx)） */
+  (function(){
+    var ul = $("hmLyrics"); if(!ul) return;
+    var LYR = ["夜里的风把话吹散","Can I get a kiss","想和你待到天亮","把今天折进信里","你说 晚安"];
+    var H = 27, VIEW = 108, cur = 0;
+    function paint(){
+      var lis = ul.children;
+      for(var i=0;i<lis.length;i++){
+        var d = i - cur;
+        lis[i].style.transform = "rotate(" + (d*4.2) + "deg) translateX(" + (Math.abs(d)*-2.4) + "px)";
+        lis[i].style.opacity = Math.max(0, 1 - Math.abs(d)*0.32);
+        lis[i].className = (i===cur) ? "cur" : "";
+      }
+      ul.style.transform = "translateY(" + (VIEW/2 - H/2 - cur*H) + "px)";
+    }
+    function fill(lines){
+      ul.innerHTML = "";
+      for(var i=0;i<lines.length;i++){
+        var li = document.createElement("li");
+        li.textContent = lines[i];
+        ul.appendChild(li);
+      }
+    }
+    fill(LYR); paint();
+    var timer = setInterval(function(){
+      if(!ul.children.length) return;
+      cur = (cur + 1) % ul.children.length; paint();
+    }, 3400);
+    window.setHomeLyric = function(lines, idx){
+      if(!lines || !lines.length) return;
+      fill(lines);
+      cur = Math.max(0, Math.min(lines.length-1, idx || 0));
+      paint();
+    };
+  })();
 
   /* 两耳竖起的点击：数据卡 */
   var cards=document.querySelectorAll("#hmRail .gcard");
