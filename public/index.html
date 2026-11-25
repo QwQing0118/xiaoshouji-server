@@ -604,6 +604,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
   pointer-events:none;transition:opacity .26s;z-index:50}
 .mDrawerMask.on{opacity:1;pointer-events:auto}
 .mDrawer{position:absolute;left:0;right:0;bottom:0;height:52%;background:var(--bg);
+  will-change:transform;
   border-radius:22px 22px 0 0;z-index:51;display:flex;flex-direction:column;
   transform:translateY(101%);transition:transform .40s cubic-bezier(.22,.9,.28,1);
   box-shadow:0 -14px 34px -24px rgba(0,0,0,.5)}
@@ -619,12 +620,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 
 /* —— 合集详情 —— */
 .mColView{position:absolute;inset:0;z-index:60;display:flex;flex-direction:column;
+  will-change:opacity,transform;
   background:var(--bg);opacity:0;pointer-events:none;transform:translateX(30px);
   transition:opacity .28s ease,transform .38s cubic-bezier(.22,.9,.28,1)}
 .mColView.on{opacity:1;pointer-events:auto;transform:none}
 .mColTop{position:relative;flex:0 0 37%;overflow:hidden}
 .mColBg{position:absolute;inset:-12%;background-size:cover;background-position:center;
-  background-color:var(--surface);filter:blur(24px);transform:scale(1.1)}
+  background-color:var(--surface);filter:blur(22px);
+  transform:scale(1.1) translateZ(0);will-change:transform}
 .mColShade{position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(255,255,255,.55) 0%,rgba(255,255,255,.78) 62%,rgba(255,255,255,.92) 100%)}
 .mColInner{position:relative;z-index:2;display:flex;flex-direction:column;height:100%;
@@ -662,6 +665,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 .mColList{flex:1 1 auto;min-height:0;overflow-y:auto;background:var(--surface);
   padding:10px 12px 20px}
 .mColList .miCov{border-radius:9px}
+.mi{content-visibility:auto;contain-intrinsic-size:auto 60px}
 
 </style>
 </head>
@@ -4719,6 +4723,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 
     /* ---- 音频 ---- */
     var audio = $("mAudio");
+    var dragging = false;
 
     function setPlayIcon(playing){
       var ico = $("mPlayIco");
@@ -4774,7 +4779,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
       if(M.idx < 0){ M.queue.unshift(it); M.idx = 0; }
       M.cur = it;
       renderSong();
-      renderLists();
+      refreshRows();
       resolveUrl(it).then(function(u){
         if(!u){ toast("这首放不了，可能没版权"); return; }
         audio.src = u;
@@ -4821,6 +4826,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
       return M.local.some(function(x){ return String(x.id)===String(it.id); });
     }
 
+    function refreshRows(){
+      var cur = M.cur ? String(M.cur.id) : "";
+      var rows = document.querySelectorAll(".mi");
+      for(var i=0;i<rows.length;i++){
+        rows[i].classList.toggle("on", rows[i].getAttribute("data-sid") === cur);
+      }
+    }
     function isInPl(song){
       if(!song) return false;
       for(var i=0;i<M.playlist.length;i++){ if(String(M.playlist[i].id)===String(song.id)) return true; }
@@ -4834,7 +4846,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
         var inPl = isInPl(it);
         add = '<button class="miAdd'+(inPl?" on":"")+'" data-add="'+i+'" data-from="'+from+'">'+(inPl?"✓":"+")+'</button>';
       }
-      return '<div class="mi'+on+'" data-i="'+i+'">'+
+      return '<div class="mi'+on+'" data-i="'+i+'" data-sid="'+esc2(it.id)+'">'+
         '<div class="miCov"'+cv+'></div>'+
         '<div class="miTxt"><div class="miName">'+esc2(it.name||"未命名")+'</div>'+
         '<div class="miArt">'+esc2(it.artist||"未知")+'</div></div>'+
@@ -4894,7 +4906,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
             id: s.id,
             name: s.name,
             artist: (s.artists && s.artists[0] && s.artists[0].name) || (s.ar && s.ar[0] && s.ar[0].name) || "未知",
-            cover: (s.album && s.album.picUrl) || (s.al && s.al.picUrl) || "",
+            cover: thumb((s.album && s.album.picUrl) || (s.al && s.al.picUrl) || "", 240),
             dur: (s.duration || (s.dt)) || 0
           };
         });
@@ -4908,7 +4920,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
       mApi("/personalized", "limit=12").then(function(j){
         var arr = (j && j.result) || [];
         M.recs = arr.map(function(x){
-          return { id:x.id, name:x.name, cover:x.picUrl || "" };
+          return { id:x.id, name:x.name, cover: thumb(x.picUrl || "", 300) };
         });
         renderRecs();
       }).catch(function(){
@@ -4968,18 +4980,29 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
     }
 
     /* ---- 合集详情 ---- */
+    var colReq = 0;
+    function thumb(u, w){
+      if(!u) return "";
+      if(u.indexOf("music.126.net")<0) return u;
+      return u + (u.indexOf("?")<0 ? "?" : "&") + "param=" + w + "y" + w;
+    }
     function openCollection(rec){
       if(!rec) return;
+      var myReq = ++colReq;
       mApi("/playlist/detail", "id="+encodeURIComponent(rec.id)).then(function(j){
+        if(myReq !== colReq) return;
         var pl = j && j.playlist;
         if(!pl){ toast("合集取不到"); return; }
-        var songs = (pl.tracks||[]).map(function(t){
+        var all = pl.tracks || [];
+        var muted = all.length > 200 ? all.length : 0;
+        var songs = all.slice(0,200).map(function(t){
           return { id:t.id, name:t.name, artist:(t.ar&&t.ar[0]&&t.ar[0].name)||"未知",
-                   cover:(t.al&&t.al.picUrl)||"", dur:t.dt||0 };
+                   cover:thumb((t.al&&t.al.picUrl)||"",120), dur:t.dt||0 };
         });
+        if(muted) toast("这个合集有 "+muted+" 首，先取前 200");
         M.col = { id: rec.id, name: pl.name || rec.name || "合集",
-                  cover: pl.coverImgUrl || rec.cover || "",
-                  count: pl.trackCount || songs.length, songs: songs };
+                  cover: thumb(pl.coverImgUrl || rec.cover || "", 400),
+                  count: pl.trackCount || all.length, songs: songs };
         M.viewCollection = true;
         renderColView();
         var v=$("mColView"); if(v) v.classList.add("on");
@@ -4991,17 +5014,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
           cv=$("mColCover"), list=$("mColList");
       if(bg) bg.style.backgroundImage = c.cover ? ('url("'+c.cover+'")') : "";
       if(nm) nm.textContent = c.name;
-      if(mt) mt.textContent = (c.count || c.songs.length) + " 首";
+      if(mt) mt.textContent = (c.count && c.count > c.songs.length)
+        ? (c.count + " 首 · 显示前 " + c.songs.length)
+        : ((c.songs.length) + " 首");
       if(nw) nw.textContent = (M.cur && M.source==="collection") ? ("正在播放 · " + (M.cur.name||"")) : "还没在放";
       if(cv) cv.style.backgroundImage = (M.cur && M.cur.cover) ? ('url("'+M.cur.cover+'")')
                                      : (c.cover ? ('url("'+c.cover+'")') : "");
       if(list) list.innerHTML = c.songs.map(function(x,i){ return rowHtml(x,i,"col"); }).join("");
-      var b=$("mColPlayBtn");
-      if(b){
-        var playing = (M.source === "collection" && String(M.playingColId)===String(c.id));
-        b.textContent = playing ? "取消播放合集" : "播放合集";
-        b.classList.toggle("cancel", playing);
-      }
+      updateColBtn();
+    }
+    function updateColBtn(){
+      var b=$("mColPlayBtn"); if(!b || !M.col) return;
+      var playing = (M.source === "collection" && String(M.playingColId)===String(M.col.id));
+      b.textContent = playing ? "取消播放合集" : "播放合集";
+      b.classList.toggle("cancel", playing);
     }
     function closeCol(){
       M.viewCollection = false;
@@ -5012,7 +5038,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
       if(M.source === "collection" && String(M.playingColId)===String(M.col.id)){
         M.source = "playlist";
         M.playingColId = null;
-        renderColView();
+        updateColBtn();
         if(M.playlist.length) playItem(M.playlist[0], M.playlist, "playlist");
         else { try{ audio.pause(); }catch(e){} }
         toast("回到播放栏了");
@@ -5020,7 +5046,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
         if(!M.col.songs.length){ toast("这个合集是空的"); return; }
         M.playingColId = M.col.id;
         playItem(M.col.songs[0], M.col.songs, "collection");
-        renderColView();
+        updateColBtn();
         toast("按合集顺序播放");
       }
     }
@@ -5177,7 +5203,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
       audio.addEventListener("play", function(){ M.playing=true; setPlayIcon(true); });
       audio.addEventListener("pause", function(){ M.playing=false; setPlayIcon(false); });
       audio.addEventListener("timeupdate", function(){
-        if(audio.duration) setProgUI(audio.currentTime/audio.duration);
+        if(!dragging && audio.duration) setProgUI(audio.currentTime/audio.duration);
         syncLyric();
       });
       audio.addEventListener("ended", function(){ playAt(M.idx+1); });
@@ -5205,16 +5231,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 
     var progEl=$("mProg");
     if(progEl){
-      var dragging=false;
-      function seekAt(x){
+      function seekAt(x, commit){
         var r=progEl.getBoundingClientRect();
         var p=Math.max(0,Math.min(1,(x-r.left)/r.width));
         setProgUI(p);
-        if(audio.duration) audio.currentTime = p*audio.duration;
+        if(commit && audio.duration) audio.currentTime = p*audio.duration;
       }
-      progEl.addEventListener("pointerdown", function(e){ dragging=true; try{progEl.setPointerCapture(e.pointerId);}catch(x){} seekAt(e.clientX); });
-      progEl.addEventListener("pointermove", function(e){ if(dragging) seekAt(e.clientX); });
-      progEl.addEventListener("pointerup", function(){ dragging=false; });
+      progEl.addEventListener("pointerdown", function(e){
+        dragging=true;
+        try{ progEl.setPointerCapture(e.pointerId); }catch(x){}
+        seekAt(e.clientX, false);
+      });
+      progEl.addEventListener("pointermove", function(e){ if(dragging) seekAt(e.clientX, false); });
+      progEl.addEventListener("pointerup", function(e){ if(dragging){ dragging=false; seekAt(e.clientX, true); } });
       progEl.addEventListener("pointercancel", function(){ dragging=false; });
     }
 
@@ -5329,6 +5358,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
       }catch(e){}
       if(M.source==="collection" && !M.col) M.source = "playlist";
       renderPl();
+      closeDrawer();
       applyMode();
       if(M.mode==="sys"){
         dbAll().then(function(all){
