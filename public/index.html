@@ -56,8 +56,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 .bat i{position:absolute;left:1.4px;top:1.4px;bottom:1.4px;border-radius:1.6px;background:var(--brown2)}
 #screen{position:relative;z-index:2;flex:1 1 auto;min-height:0;overflow:hidden}
 .page{position:absolute;inset:0;display:flex;flex-direction:column;
-  transform:translateX(100%);transition:transform .32s cubic-bezier(.22,.9,.28,1);z-index:2}
-.page.on{transform:translateX(0);z-index:3}
+  opacity:0;transform:translateX(34px) scale(.994);pointer-events:none;
+  transition:opacity .30s ease,transform .42s cubic-bezier(.22,.9,.28,1);z-index:2}
+.page.on{opacity:1;transform:none;pointer-events:auto;z-index:3}
 .nav{flex:0 0 auto;height:56px;padding:0 20px;display:flex;align-items:center;gap:12px}
 .nav .nb{flex:0 0 auto;width:32px;height:32px;border:none;background:transparent;
   display:flex;align-items:center;justify-content:center;color:var(--brown2);
@@ -410,6 +411,170 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
     opacity:.72;max-height:200px;overflow:auto;
   }
   .tooldetail.on{display:block;}
+
+/* ===== 音乐页 ===== */
+#pg-music{background:var(--bg)}
+.mNav{flex:0 0 auto;height:52px;display:flex;align-items:center;gap:8px;padding:0 14px}
+.mBack{width:34px;height:34px;flex:0 0 auto;border:none;background:transparent;color:var(--ink);
+  display:flex;align-items:center;justify-content:center;padding:0;border-radius:50%}
+.mBack:active{background:var(--surface)}
+.mTitle{font-family:'Playfair',Georgia,serif;font-style:italic;font-size:19px;
+  letter-spacing:1.6px;color:var(--ink)}
+
+/* —— 播放器 —— */
+.mPlayer{flex:0 0 auto;padding:0 18px}
+.mCards{position:relative;height:150px;perspective:900px;-webkit-perspective:900px}
+.mCard{position:absolute;left:50%;top:6px;width:112px;height:128px;margin-left:-56px;
+  background:#fff;border-radius:6px;padding:6px 6px 17px;
+  box-shadow:0 14px 26px -16px rgba(0,0,0,.55),0 0 0 .5px rgba(0,0,0,.05);
+  transform-origin:50% 100%;
+  transition:transform .52s cubic-bezier(.22,.9,.28,1),opacity .4s ease}
+.mCard .cov{width:100%;height:100%;border-radius:3px;
+  background:linear-gradient(160deg,#EDEBE7,#D6D2CB);background-size:cover;background-position:center}
+.mCard.main{transform:translateZ(30px) translateY(-2px);z-index:3}
+.mCard.l{transform:translateX(-72px) rotateY(30deg) scale(.86);opacity:.9;z-index:2}
+.mCard.r{transform:translateX(72px) rotateY(-30deg) scale(.86);opacity:.9;z-index:2}
+.mCard.l.dim,.mCard.r.dim{opacity:.35}
+
+.mSong{margin-top:12px;text-align:center;font-size:15px;font-weight:600;color:var(--ink);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.2px}
+.mArtist{margin-top:5px;text-align:center;font-size:11.5px;color:var(--ink3);letter-spacing:.3px}
+
+/* 长条播放器（拟态） */
+.mBar{margin-top:13px;border-radius:20px;padding:12px 16px 13px;
+  background:linear-gradient(180deg,#FFFFFF 0%,#F4F2EE 100%);
+  box-shadow:0 12px 24px -18px rgba(0,0,0,.5),inset 0 1px 0 #FFFFFF,0 0 0 .5px rgba(0,0,0,.045)}
+.mProg{position:relative;height:3px;border-radius:2px;background:var(--line);cursor:pointer;margin-bottom:11px}
+.mProgFill{position:absolute;left:0;top:0;bottom:0;width:0%;border-radius:2px;
+  background:linear-gradient(90deg,var(--ink3),var(--ink))}
+.mProgKnob{position:absolute;top:50%;left:0%;width:9px;height:9px;margin:-4.5px 0 0 -4.5px;
+  border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.28),0 0 0 .5px rgba(0,0,0,.06)}
+.mCtrls{display:flex;align-items:center;justify-content:center;gap:20px}
+.mBtn{width:36px;height:36px;border:none;background:transparent;color:var(--ink);
+  display:flex;align-items:center;justify-content:center;padding:0;border-radius:50%;
+  transition:transform .16s ease,background .2s}
+.mBtn:active{transform:scale(.9)}
+.mBtn.big{width:46px;height:46px;border-radius:50%;
+  background:linear-gradient(180deg,#FFFFFF,#F0EDE8);
+  box-shadow:0 6px 12px -7px rgba(0,0,0,.4),inset 0 1px 0 #fff,0 0 0 .5px rgba(0,0,0,.06)}
+/* 收藏爱心：没收藏是线，收藏了填充+粉+立体 */
+.mFav{color:var(--ink3)}
+.mFav.on{color:#E8869C}
+.mFav.on svg{filter:drop-shadow(0 2px 3px rgba(232,134,156,.4))}
+.mFav.on .heartFill{opacity:1}
+.mFav .heartFill{opacity:0;transition:opacity .25s}
+.mFav:active{transform:scale(.84)}
+
+/* —— 下划线分段 —— */
+.mTabs{flex:0 0 auto;display:flex;margin:16px 18px 0;position:relative;border-bottom:1px solid var(--line)}
+.mTab{flex:1 1 0;height:44px;display:flex;align-items:center;justify-content:center;gap:6px;
+  border:none;background:transparent;padding:0;position:relative;z-index:2;
+  font-size:11.5px;color:var(--ink4);font-family:inherit;transition:color .25s}
+.mTab svg{width:14px;height:14px;flex:0 0 auto}
+.mTab.on{color:var(--ink);font-weight:600}
+.mTabInk{position:absolute;bottom:-1px;left:0;width:33.33%;height:2.5px;border-radius:2px;
+  background:var(--ink);z-index:3;
+  transition:left .46s cubic-bezier(.34,1.56,.64,1),width .46s cubic-bezier(.34,1.56,.64,1)}
+.mTab[disabled]{opacity:.35}
+
+/* —— 面板 —— */
+.mPanels{flex:1 1 auto;min-height:0;position:relative}
+.mPanel{position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:6px 12px 16px;opacity:0;pointer-events:none;transform:translateX(16px);
+  transition:opacity .26s ease,transform .34s cubic-bezier(.22,.9,.28,1)}
+.mPanel.on{opacity:1;pointer-events:auto;transform:none}
+.mListHead{display:flex;align-items:center;justify-content:space-between;padding:8px 6px 4px}
+.mListHead .lh{font-family:'Playfair',Georgia,serif;font-style:italic;font-size:12px;
+  letter-spacing:1.1px;color:var(--ink3)}
+.mUpBtn{width:24px;height:24px;border-radius:50%;border:none;background:var(--surface);
+  color:var(--ink2);display:flex;align-items:center;justify-content:center;padding:0}
+.mUpBtn:active{transform:scale(.9)}
+.mUpBtn[hidden]{display:none}
+
+/* 列表行 */
+.mi{display:flex;align-items:center;gap:11px;padding:9px 8px;border-radius:12px;
+  transition:background .2s;cursor:pointer}
+.mi:active{background:var(--surface)}
+.mi.on{background:var(--surface2)}
+.miCov{width:42px;height:42px;flex:0 0 auto;border-radius:9px;background:var(--surface);
+  background-size:cover;background-position:center}
+.miTxt{flex:1 1 auto;min-width:0}
+.miName{font-size:12.5px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mi.on .miName{font-weight:600}
+.miArt{font-size:10.5px;color:var(--ink3);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.miDur{flex:0 0 auto;font-size:10.5px;color:var(--ink4);font-family:'Playfair',Georgia,serif;letter-spacing:.3px}
+.mEmpty{text-align:center;font-size:11.5px;color:var(--ink4);padding:36px 0;letter-spacing:.6px}
+
+/* 合集横卡 */
+.mRecs{display:flex;gap:11px;overflow-x:auto;padding:6px 2px 14px;scrollbar-width:none}
+.mRecs::-webkit-scrollbar{display:none}
+.rc{flex:0 0 auto;width:212px;height:80px;border-radius:12px;overflow:hidden;display:flex;
+  background:var(--surface);box-shadow:0 8px 18px -14px rgba(0,0,0,.45),0 0 0 .5px rgba(0,0,0,.04)}
+.rc:active{transform:scale(.985)}
+.rcImg{width:75%;height:100%;background-size:cover;background-position:center;
+  background-color:var(--surface2)}
+.rcName{width:25%;padding:10px 4px;display:flex;align-items:center;justify-content:center;
+  font-size:9.5px;line-height:1.35;color:var(--ink2);text-align:center;
+  writing-mode:vertical-rl;letter-spacing:1px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* —— 设置 —— */
+.mSeg{position:relative;display:flex;background:var(--surface);border-radius:12px;padding:3px;margin:10px 6px 0}
+.mSegItem{flex:1 1 0;height:36px;display:flex;align-items:center;justify-content:center;
+  font-size:12.5px;color:var(--ink3);position:relative;z-index:2;transition:color .25s;border-radius:10px}
+.mSegItem.on{color:var(--ink);font-weight:600}
+.mSegInk{position:absolute;top:3px;bottom:3px;left:3px;width:calc(50% - 3px);border-radius:10px;
+  background:var(--bg);box-shadow:0 1px 5px rgba(0,0,0,.10),0 0 0 .5px rgba(0,0,0,.03);
+  transition:left .42s cubic-bezier(.34,1.56,.64,1),width .42s cubic-bezier(.34,1.56,.64,1)}
+.mFieldWrap{padding:18px 8px 0}
+.mFieldLab{font-size:10px;color:var(--ink4);letter-spacing:1.4px;text-transform:uppercase;
+  font-family:'Playfair',Georgia,serif;font-style:italic}
+.mField{width:100%;box-sizing:border-box;border:none;border-bottom:1px solid var(--line);
+  background:transparent;padding:11px 0;font-size:12.5px;color:var(--ink);outline:none;
+  font-family:inherit;-webkit-user-select:text;user-select:text}
+.mField:focus{border-bottom-color:var(--ink3)}
+.mHint{font-size:10.5px;color:var(--ink4);line-height:1.7;padding:10px 8px 0}
+.mSysBox{padding:16px 8px 0}
+
+/* 上传弹层 */
+.mDlgMask{position:absolute;inset:0;background:rgba(20,20,20,.28);opacity:0;
+  pointer-events:none;transition:opacity .25s;z-index:40}
+.mDlgMask.on{opacity:1;pointer-events:auto}
+.mDlg{position:absolute;left:16px;right:16px;bottom:16px;background:var(--bg);border-radius:20px;
+  padding:18px 18px 16px;transform:translateY(18px);opacity:0;pointer-events:none;
+  transition:transform .34s cubic-bezier(.22,.9,.28,1),opacity .24s;
+  box-shadow:0 20px 44px -22px rgba(0,0,0,.5);z-index:41}
+.mDlg.on{transform:none;opacity:1;pointer-events:auto}
+.mDlgT{font-family:'Playfair',Georgia,serif;font-style:italic;font-size:15px;color:var(--ink);
+  letter-spacing:1px;margin-bottom:6px}
+.mDlgRow{display:flex;align-items:center;gap:10px;margin-top:10px}
+.mPick{flex:0 0 auto;height:32px;padding:0 12px;border-radius:16px;border:.5px solid var(--line);
+  background:var(--surface);color:var(--ink2);font-size:11.5px;font-family:inherit}
+.mPick:active{opacity:.7}
+.mPickName{flex:1 1 auto;min-width:0;font-size:10.5px;color:var(--ink4);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mDlgBtns{display:flex;gap:10px;margin-top:16px}
+.mDlgBtn{flex:1 1 0;height:40px;border-radius:20px;border:none;font-size:12.5px;font-family:inherit;
+  background:var(--surface);color:var(--ink2)}
+.mDlgBtn.primary{background:linear-gradient(180deg,#2E2E2E,#141414);color:#fff;
+  box-shadow:0 8px 16px -10px rgba(0,0,0,.6)}
+.mDlgBtn:active{transform:scale(.98)}
+
+/* 歌词面板 */
+.mLyrMask{position:absolute;inset:0;background:var(--bg);opacity:0;pointer-events:none;
+  transition:opacity .3s;z-index:42;display:flex;flex-direction:column}
+.mLyrMask.on{opacity:1;pointer-events:auto}
+.mLyrTop{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px 6px}
+.mLyrTop .lt{font-family:'Playfair',Georgia,serif;font-style:italic;font-size:13px;color:var(--ink3)}
+.mLyrTop .lc{width:30px;height:30px;border:none;background:transparent;color:var(--ink2);font-size:18px}
+.mLyrBody{flex:1 1 auto;overflow-y:auto;padding:20px 26px 40px;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 12%,#000 86%,transparent 100%);
+  mask-image:linear-gradient(180deg,transparent 0,#000 12%,#000 86%,transparent 100%)}
+.mLyrBody p{margin:0 0 16px;font-size:13px;line-height:1.6;color:var(--ink4);
+  text-align:center;transition:color .3s,font-size .3s}
+.mLyrBody p.cur{color:var(--ink);font-size:14.5px;font-weight:600}
+
 </style>
 </head>
 <body>
@@ -554,11 +719,123 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
     </div>
 
     <div class="page" id="pg-music">
-      <div class="nav">
-        <button class="nb" data-back="1">‹</button>
-        <div class="mid"><div class="t1">音乐</div><div class="t2">music</div></div>
+      <div class="mNav">
+        <button class="mBack" data-back="1" aria-label="返回">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.6 5.4 8 12l6.6 6.6"/></svg>
+        </button>
+        <div class="mTitle">Music</div>
       </div>
-      <div class="phEmpty"><div class="phEn">coming next</div><div class="phCn">这一页下一步做</div></div>
+
+      <div class="mPlayer">
+        <div class="mCards">
+          <div class="mCard l" id="mcPrev"><div class="cov"></div></div>
+          <div class="mCard r" id="mcNext"><div class="cov"></div></div>
+          <div class="mCard main" id="mcMain"><div class="cov"></div></div>
+        </div>
+        <div class="mSong" id="mSong">还没有在放</div>
+        <div class="mArtist" id="mArtist">挑一首吧</div>
+        <div class="mBar">
+          <div class="mProg" id="mProg">
+            <div class="mProgFill" id="mProgFill"></div>
+            <div class="mProgKnob" id="mProgKnob"></div>
+          </div>
+          <div class="mCtrls">
+            <button class="mBtn" id="mPrev" aria-label="上一首">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><rect x="4.4" y="6" width="1.9" height="12" rx="0.95"/><path d="M19.2 6.4c0-.6-.7-1-1.2-.6l-8 5.6c-.4.3-.4.9 0 1.2l8 5.6c.5.4 1.2 0 1.2-.6z"/></svg>
+            </button>
+            <button class="mBtn big" id="mPlay" aria-label="播放">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" id="mPlayIco"><path d="M8.4 5.6c0-.7.8-1.1 1.4-.7l9 6.4c.5.4.5 1 0 1.4l-9 6.4c-.6.4-1.4 0-1.4-.7z"/></svg>
+            </button>
+            <button class="mBtn" id="mNext" aria-label="下一首">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><rect x="17.7" y="6" width="1.9" height="12" rx="0.95"/><path d="M4.8 6.4c0-.6.7-1 1.2-.6l8 5.6c.4.3.4.9 0 1.2l-8 5.6c-.5.4-1.2 0-1.2-.6z"/></svg>
+            </button>
+            <button class="mBtn mFav" id="mFav" aria-label="收藏">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path class="heartFill" d="M12 20.1s-7.3-4.5-7.3-9.3A4.35 4.35 0 0 1 12 7.7a4.35 4.35 0 0 1 7.3 3.1c0 4.8-7.3 9.3-7.3 9.3z" fill="currentColor" stroke="none"/><path d="M12 20.1s-7.3-4.5-7.3-9.3A4.35 4.35 0 0 1 12 7.7a4.35 4.35 0 0 1 7.3 3.1c0 4.8-7.3 9.3-7.3 9.3z"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mTabs" id="mTabs">
+        <button class="mTab on" data-mt="list">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 7h10M4 12h10M4 17h6"/><circle cx="17.5" cy="16" r="2.2"/><path d="M19.7 16V8.2l-3 .9"/></svg>
+          <span>歌单</span>
+        </button>
+        <button class="mTab" data-mt="rec">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.2l1.9 4.2 4.6.5-3.4 3.1 1 4.5-4.1-2.3-4.1 2.3 1-4.5-3.4-3.1 4.6-.5z"/></svg>
+          <span>推荐</span>
+        </button>
+        <button class="mTab" data-mt="set">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M5 7.5h9M18.5 7.5H20M5 16.5h2M11 16.5h9"/><circle cx="16" cy="7.5" r="2.1"/><circle cx="9" cy="16.5" r="2.1"/></svg>
+          <span>设置</span>
+        </button>
+        <div class="mTabInk" id="mTabInk"></div>
+      </div>
+
+      <div class="mPanels">
+        <div class="mPanel on" id="mPanelList">
+          <div class="mListHead">
+            <span class="lh" id="mListTitle">Playlist</span>
+            <button class="mUpBtn" id="mUpBtn" hidden aria-label="添加">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5.5v13M5.5 12h13"/></svg>
+            </button>
+          </div>
+          <div class="mList" id="mList"></div>
+        </div>
+
+        <div class="mPanel" id="mPanelRec">
+          <div class="mRecs" id="mRecs"></div>
+          <div class="mList" id="mRecList"></div>
+        </div>
+
+        <div class="mPanel" id="mPanelSet">
+          <div class="mSeg" id="mSeg">
+            <div class="mSegInk" id="mSegInk"></div>
+            <div class="mSegItem on" data-mode="ext">外接</div>
+            <div class="mSegItem" data-mode="sys">系统</div>
+          </div>
+          <div class="mFieldWrap" id="mExtBox">
+            <div class="mFieldLab">server</div>
+            <input class="mField" id="mApiBase" placeholder="http://127.0.0.1:3000" spellcheck="false" autocapitalize="off">
+            <div class="mHint">填你起好的网易云接口地址，歌单和推荐都从这里取。</div>
+          </div>
+          <div class="mSysBox" id="mSysBox" hidden>
+            <div class="mFieldLab">local</div>
+            <div class="mHint">歌单页会变成「收藏」，右上角那颗小加号上传自己的音频。自己传的歌没有歌词。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mDlgMask" id="mDlgMask"></div>
+      <div class="mDlg" id="mDlg">
+        <div class="mDlgT">加一首</div>
+        <div class="mDlgRow">
+          <button class="mPick" id="mPickAudio">音频</button>
+          <div class="mPickName" id="mPickAudioName">未选择</div>
+        </div>
+        <div class="mDlgRow">
+          <button class="mPick" id="mPickCover">封面</button>
+          <div class="mPickName" id="mPickCoverName">未选择</div>
+        </div>
+        <div class="mFieldWrap" style="padding:6px 0 0">
+          <input class="mField" id="mUpName" placeholder="歌曲名字">
+          <input class="mField" id="mUpArtist" placeholder="歌手">
+        </div>
+        <div class="mDlgBtns">
+          <button class="mDlgBtn" id="mDlgCancel">取消</button>
+          <button class="mDlgBtn primary" id="mDlgSave">保存</button>
+        </div>
+      </div>
+
+      <div class="mLyrMask" id="mLyrMask">
+        <div class="mLyrTop">
+          <div class="lt" id="mLyrTitle">lyrics</div>
+          <button class="lc" id="mLyrClose">✕</button>
+        </div>
+        <div class="mLyrBody" id="mLyrBody"></div>
+      </div>
+
+      <audio id="mAudio" preload="metadata"></audio>
     </div>
 
     <div class="page" id="pg-theme">
@@ -1010,7 +1287,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
     }catch(e){}
     return "";
   }
-  var P = { name:"青青", sig:"泊在青山里", face:"青", id:"qing", sign:"泊在青山里", nick:"青青", anniv:"", annivText:"",
+  var P = { name:"青青", sig:"泊在青山里", face:"青", id:"qing", sign:"泊在青山里", nick:"青青", anniv:"", annivText:"", musicMode:"ext", musicApi:"",
             linName:"林言", linFace:"林", model:"deepseek-v4-flash" };
   var __setInited = false;
   var KEY = { msg:"sm2_msgs", dy:"sm2_diary", cfg:"sm2_cfg", draft:"sm2_draft" };
@@ -1452,6 +1729,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
     }
     if(name==="mem") paintMem();
     if(name==="settings") paintSettings();
+    if(name==="music") {
+      try{ if(window.__smMusicPaint) window.__smMusicPaint(); }catch(e){}
+    }
   }
   window.__sm2Go = go;
 
@@ -4199,6 +4479,556 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
   /* 底部图文卡旁边的头像 */
   var mav=$("hmMyAv");
   if(mav) mav.onclick = function(){ go("chat"); };
+
+  /* ================= 音乐页 ================= */
+  var M = { mode:"ext", api:"", tab:"list", queue:[], idx:-1, cur:null, playing:false,
+            favExt:[], local:[], recs:[], recSongs:[], recLoaded:false };
+
+  (function(){
+    var DB=null;
+    function mdb(){
+      return new Promise(function(ok,bad){
+        if(DB) return ok(DB);
+        var rq = indexedDB.open("sm_music", 1);
+        rq.onupgradeneeded = function(e){
+          var db = e.target.result;
+          if(!db.objectStoreNames.contains("songs")) db.createObjectStore("songs", {keyPath:"id"});
+        };
+        rq.onsuccess = function(e){ DB = e.target.result; ok(DB); };
+        rq.onerror = function(){ bad(new Error("db open failed")); };
+      });
+    }
+    function tx(store, mode){
+      return mdb().then(function(db){ return db.transaction("songs", mode).objectStore("songs"); });
+    }
+    function dbPut(rec){
+      return tx("songs","readwrite").then(function(st){
+        return new Promise(function(ok,bad){ var rq=st.put(rec); rq.onsuccess=function(){ok()}; rq.onerror=function(){bad(rq.error)}; });
+      });
+    }
+    function dbAll(){
+      return tx("songs","readonly").then(function(st){
+        return new Promise(function(ok,bad){ var rq=st.getAll(); rq.onsuccess=function(){ok(rq.result||[])}; rq.onerror=function(){bad(rq.error)}; });
+      });
+    }
+    function dbGet(id){
+      return tx("songs","readonly").then(function(st){
+        return new Promise(function(ok,bad){ var rq=st.get(id); rq.onsuccess=function(){ok(rq.result||null)}; rq.onerror=function(){bad(rq.error)}; });
+      });
+    }
+    function dbDel(id){
+      return tx("songs","readwrite").then(function(st){
+        return new Promise(function(ok){ var rq=st.delete(id); rq.onsuccess=function(){ok()}; rq.onerror=function(){ok()}; });
+      });
+    }
+    window.__smDbDel = dbDel;
+
+    /* ---- 工具 ---- */
+    function mmss(ms){
+      if(!ms || !isFinite(ms)) return "--:--";
+      var s = Math.floor(ms/1000);
+      return Math.floor(s/60) + ":" + ("0" + (s%60)).slice(-2);
+    }
+    function esc2(t){ return String(t==null?"":t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+    function mSaveCfg(){ P.musicMode = M.mode; P.musicApi = M.api; try{ save(); }catch(e){} }
+    function apiUrl(path, qs){
+      var base = String(M.api||"").replace(/\/+$/,"");
+      if(!base) return "";
+      return base + path + (qs ? ("?" + qs) : "");
+    }
+    function mApi(path, qs){
+      var u = apiUrl(path, qs);
+      if(!u) return Promise.reject(new Error("no api"));
+      return fetch(u, { cache:"no-store" }).then(function(r){ return r.json(); });
+    }
+
+    /* ---- 音频 ---- */
+    var audio = $("mAudio");
+
+    function setPlayIcon(playing){
+      var ico = $("mPlayIco");
+      if(!ico) return;
+      if(playing){
+        ico.innerHTML = '<rect x="8" y="6" width="3.1" height="12" rx="1.4"/><rect x="13.2" y="6" width="3.1" height="12" rx="1.4"/>';
+      }else{
+        ico.innerHTML = '<path d="M8.4 5.6c0-.7.8-1.1 1.4-.7l9 6.4c.5.4.5 1 0 1.4l-9 6.4c-.6.4-1.4 0-1.4-.7z"/>';
+      }
+    }
+    function setProgUI(p){
+      p = Math.max(0, Math.min(1, p||0));
+      var f=$("mProgFill"), k=$("mProgKnob");
+      if(f) f.style.width = (p*100)+"%";
+      if(k) k.style.left = (p*100)+"%";
+    }
+
+    function coverOf(it){
+      if(!it) return "";
+      if(it.cover) return it.cover;
+      return "";
+    }
+
+    function resolveUrl(it){
+      if(!it) return Promise.resolve("");
+      if(it.isLocal){
+        return dbGet(it.id).then(function(rec){
+          if(!rec || !rec.audio) return "";
+          if(rec._url) return rec._url;
+          var u = URL.createObjectURL(rec.audio);
+          rec._url = u;
+          return u;
+        }).catch(function(){ return ""; });
+      }
+      if(it.url) return Promise.resolve(it.url);
+      return mApi("/song/url/v1", "id="+encodeURIComponent(it.id)+"&level=standard").then(function(j){
+        var d = j && j.data && j.data[0];
+        return (d && d.url) || "";
+      }).catch(function(){ return ""; });
+    }
+
+    function currentList(){
+      if(M.tab === "rec") return M.recSongs;
+      return M.mode === "ext" ? M.favExt : M.local;
+    }
+
+    function playItem(it, list){
+      if(!it) return;
+      M.queue = (list || currentList() || []).slice();
+      M.idx = M.queue.findIndex(function(x){ return x.id === it.id; });
+      if(M.idx < 0){ M.queue.unshift(it); M.idx = 0; }
+      M.cur = it;
+      renderSong();
+      renderLists();
+      resolveUrl(it).then(function(u){
+        if(!u){ toast("这首放不了，可能没版权"); return; }
+        audio.src = u;
+        var p = audio.play();
+        if(p && p.catch) p.catch(function(){ toast("播放失败"); });
+      });
+    }
+
+    function playAt(i){
+      if(!M.queue.length) return;
+      var n = M.queue.length;
+      M.idx = ((i % n) + n) % n;
+      playItem(M.queue[M.idx], M.queue);
+    }
+
+    /* ---- 渲染 ---- */
+    function renderSong(){
+      var it = M.cur;
+      var s1=$("mSong"), s2=$("mArtist");
+      if(s1) s1.textContent = it ? (it.name || "未命名") : "还没有在放";
+      if(s2) s2.textContent = it ? (it.artist || "未知") : "挑一首吧";
+
+      var main=$("mcMain") && $("mcMain").querySelector(".cov");
+      if(main){ main.style.backgroundImage = coverOf(it) ? ('url("'+coverOf(it)+'")') : ""; }
+
+      var n = M.queue.length;
+      var prev = n>1 ? M.queue[(M.idx-1+n)%n] : null;
+      var next = n>1 ? M.queue[(M.idx+1)%n] : null;
+      var lc=$("mcPrev"), rc=$("mcNext");
+      if(lc){ var c1=lc.querySelector(".cov"); c1.style.backgroundImage = coverOf(prev)?('url("'+coverOf(prev)+'")'):""; lc.classList.toggle("dim", !prev); }
+      if(rc){ var c2=rc.querySelector(".cov"); c2.style.backgroundImage = coverOf(next)?('url("'+coverOf(next)+'")'):""; rc.classList.toggle("dim", !next); }
+
+      var fv=$("mFav");
+      if(fv) fv.classList.toggle("on", !!(it && isFav(it)));
+    }
+
+    function isFav(it){
+      if(!it) return false;
+      if(M.mode === "ext") return M.favExt.some(function(x){ return String(x.id)===String(it.id); });
+      return M.local.some(function(x){ return String(x.id)===String(it.id); });
+    }
+
+    function rowHtml(it, i){
+      var on = (M.cur && String(M.cur.id)===String(it.id)) ? " on" : "";
+      var cv = coverOf(it) ? (' style="background-image:url(&quot;'+coverOf(it)+'&quot;)"') : "";
+      return '<div class="mi'+on+'" data-i="'+i+'">'+
+        '<div class="miCov"'+cv+'></div>'+
+        '<div class="miTxt"><div class="miName">'+esc2(it.name||"未命名")+'</div>'+
+        '<div class="miArt">'+esc2(it.artist||"未知")+'</div></div>'+
+        '<div class="miDur">'+mmss(it.dur)+'</div></div>';
+    }
+
+    function renderLists(){
+      var listBox=$("mList"), recBox=$("mRecList");
+      var arr = (M.mode==="ext") ? M.favExt : M.local;
+      if(listBox){
+        if(!arr.length){
+          listBox.innerHTML = '<div class="mEmpty">'+(M.mode==="ext"?"还没有收藏的歌":"还没有上传的歌")+'</div>';
+        }else{
+          listBox.innerHTML = arr.map(rowHtml).join("");
+        }
+      }
+      if(recBox){
+        if(M.mode!=="ext"){
+          recBox.innerHTML = '<div class="mEmpty">系统模式下没有推荐</div>';
+        }else if(!M.recSongs.length){
+          recBox.innerHTML = '<div class="mEmpty">正在取推荐…</div>';
+        }else{
+          recBox.innerHTML = M.recSongs.map(rowHtml).join("");
+        }
+      }
+      var t=$("mListTitle");
+      if(t) t.textContent = (M.mode==="ext") ? "Playlist" : "Favorites";
+      var up=$("mUpBtn");
+      if(up) up.hidden = (M.mode !== "sys");
+    }
+
+    function renderRecs(){
+      var box=$("mRecs");
+      if(!box) return;
+      if(M.mode!=="ext"){ box.innerHTML=""; return; }
+      if(!M.recs.length){ box.innerHTML='<div class="mEmpty" style="padding:22px 0">正在取合集…</div>'; return; }
+      box.innerHTML = M.recs.map(function(r,i){
+        return '<div class="rc" data-r="'+i+'">'+
+          '<div class="rcImg" style="background-image:url(&quot;'+r.cover+'&quot;)"></div>'+
+          '<div class="rcName">'+esc2(r.name)+'</div></div>';
+      }).join("");
+    }
+
+    /* ---- 外部数据 ---- */
+    function loadRec(){
+      if(M.mode!=="ext" || !M.api) return;
+      M.recLoaded = true;
+      mApi("/personalized/newsong", "limit=10").then(function(j){
+        var arr = (j && j.result) || [];
+        M.recSongs = arr.map(function(x){
+          var s = x.song || x;
+          return {
+            id: s.id,
+            name: s.name,
+            artist: (s.artists && s.artists[0] && s.artists[0].name) || (s.ar && s.ar[0] && s.ar[0].name) || "未知",
+            cover: (s.album && s.album.picUrl) || (s.al && s.al.picUrl) || "",
+            dur: (s.duration || (s.dt)) || 0
+          };
+        });
+        renderLists();
+      }).catch(function(){ M.recSongs=[]; renderLists(); });
+
+      mApi("/personalized", "limit=12").then(function(j){
+        var arr = (j && j.result) || [];
+        M.recs = arr.map(function(x){
+          return { id:x.id, name:x.name, cover:x.picUrl || "" };
+        });
+        renderRecs();
+      }).catch(function(){ M.recs=[]; renderRecs(); });
+    }
+
+    function loadRecPlaylist(pid){
+      mApi("/playlist/detail", "id="+encodeURIComponent(pid)).then(function(j){
+        var pl = j && j.playlist; if(!pl) return;
+        var tracks = (pl.tracks||[]).map(function(t){
+          return { id:t.id, name:t.name, artist:(t.ar&&t.ar[0]&&t.ar[0].name)||"未知",
+                   cover:(t.al&&t.al.picUrl)||"", dur:t.dt||0 };
+        });
+        M.recSongs = tracks;
+        renderLists();
+        var p=$("mPanelRec"); if(p) p.scrollTop = 200;
+      }).catch(function(){ toast("取歌单失败"); });
+    }
+
+    /* ---- 收藏 ---- */
+    function toggleFav(){
+      var it = M.cur;
+      if(!it){ toast("先放一首"); return; }
+      if(M.mode === "ext"){
+        var i = M.favExt.findIndex(function(x){ return String(x.id)===String(it.id); });
+        if(i>=0){ M.favExt.splice(i,1); toast("取消了"); }
+        else{ M.favExt.unshift(it); toast("加到歌单了"); }
+        try{ S("sm_music_fav", M.favExt); }catch(e){}
+      }else{
+        toast("自己传的歌本来就在收藏里");
+      }
+      renderSong(); renderLists();
+    }
+
+    /* ---- tab ---- */
+    function tabTo(key, silent){
+      M.tab = key;
+      var tabs = document.querySelectorAll("#mTabs .mTab");
+      var idx = 0;
+      for(var i=0;i<tabs.length;i++){
+        var on = tabs[i].getAttribute("data-mt") === key;
+        tabs[i].classList.toggle("on", on);
+        if(on) idx = i;
+      }
+      var ink = $("mTabInk");
+      if(ink){ ink.style.left = (idx*100/3)+"%"; ink.style.width = (100/3)+"%"; }
+      ["list","rec","set"].forEach(function(k){
+        var pn = $("mPanel" + k.charAt(0).toUpperCase() + k.slice(1));
+        if(pn) pn.classList.toggle("on", k===key);
+      });
+      if(key==="rec" && M.mode==="ext" && !M.recLoaded) loadRec();
+    }
+
+    /* ---- 设置 ---- */
+    function applyMode(){
+      var segs = document.querySelectorAll("#mSeg .mSegItem");
+      for(var i=0;i<segs.length;i++){
+        segs[i].classList.toggle("on", segs[i].getAttribute("data-mode")===M.mode);
+      }
+      var ink=$("mSegInk");
+      if(ink) ink.style.left = (M.mode==="ext" ? "3px" : "calc(50% + 0px)");
+      var ext=$("mExtBox"), sys=$("mSysBox");
+      if(ext) ext.hidden = (M.mode!=="ext");
+      if(sys) sys.hidden = (M.mode!=="sys");
+      var recTab = document.querySelector('#mTabs .mTab[data-mt="rec"]');
+      if(recTab){
+        var dis = (M.mode==="sys");
+        recTab.disabled = dis;
+        if(dis && M.tab==="rec") tabTo("list");
+      }
+      if(M.mode==="sys" && M.tab==="rec") tabTo("list");
+      renderLists(); renderRecs(); renderSong();
+    }
+
+    function setMode(m){
+      M.mode = m;
+      mSaveCfg();
+      applyMode();
+      if(m==="sys"){
+        dbAll().then(function(all){
+          M.local = all.map(function(r){
+            return { id:r.id, name:r.name, artist:r.artist, cover:r.cover||"", dur:r.dur||0, isLocal:true };
+          });
+          renderLists();
+        }).catch(function(){});
+      }
+    }
+
+    /* ---- 上传 ---- */
+    var upAudio=null, upCover="";
+    function openDlg(){ $("mDlgMask").classList.add("on"); $("mDlg").classList.add("on"); }
+    function closeDlg(){
+      $("mDlgMask").classList.remove("on"); $("mDlg").classList.remove("on");
+      upAudio=null; upCover="";
+      $("mPickAudioName").textContent="未选择";
+      $("mPickCoverName").textContent="未选择";
+      $("mUpName").value=""; $("mUpArtist").value="";
+    }
+    function pickFile(accept, cb){
+      var inp = document.createElement("input");
+      inp.type="file"; inp.accept=accept||"";
+      inp.style.cssText="position:fixed;left:-9999px";
+      document.body.appendChild(inp);
+      inp.onchange=function(){ var f=inp.files&&inp.files[0]; document.body.removeChild(inp); if(f) cb(f); };
+      inp.click();
+    }
+
+    function saveUpload(){
+      if(!upAudio){ toast("还没选音频"); return; }
+      var name=$("mUpName").value.trim() || "";
+      var artist=$("mUpArtist").value.trim() || "";
+      var rec = { id:"l_"+Date.now(), name:name, artist:artist, cover:upCover||"", audio:upAudio, dur:0 };
+      dbPut(rec).then(function(){
+        M.local.unshift({ id:rec.id, name:name, artist:artist, cover:rec.cover, dur:0, isLocal:true });
+        renderLists();
+        closeDlg();
+        toast("加好了");
+      }).catch(function(){ toast("存不下，可能太大了"); });
+    }
+
+    /* ---- 歌词 ---- */
+    function parseLrc(txt){
+      var out=[];
+      String(txt||"").split(/\r?\n/).forEach(function(line){
+        var m = line.match(/^\[(\d{1,2}):(\d{1,2})(?:[.:](\d{1,3}))?\]\s*(.*)$/);
+        if(!m) return;
+        var t = parseInt(m[1],10)*60 + parseInt(m[2],10) + (m[3]?parseInt(m[3],10)/1000:0);
+        if(m[4] && m[4].trim()) out.push({ t:t, s:m[4].trim() });
+      });
+      return out;
+    }
+    var lyrLines=[];
+    function openLyric(){
+      var mask=$("mLyrMask"), body=$("mLyrBody"), ttl=$("mLyrTitle");
+      if(!mask) return;
+      mask.classList.add("on");
+      body.scrollTop=0;
+      if(ttl) ttl.textContent = M.cur ? (M.cur.name||"lyrics") : "lyrics";
+      if(!M.cur){ body.innerHTML='<p>还没有在放</p>'; return; }
+      if(M.cur.isLocal){ body.innerHTML='<p style="padding-top:40px">这首歌不支持歌词滚动</p>'; lyrLines=[]; return; }
+      body.innerHTML='<p>正在取歌词…</p>';
+      mApi("/lyric", "id="+encodeURIComponent(M.cur.id)).then(function(j){
+        var lrc = j && j.lrc && j.lrc.lyric;
+        if(!lrc){ body.innerHTML='<p style="padding-top:40px">这首歌不支持歌词滚动</p>'; return; }
+        lyrLines = parseLrc(lrc);
+        if(!lyrLines.length){ body.innerHTML='<p style="padding-top:40px">这首歌不支持歌词滚动</p>'; return; }
+        body.innerHTML = lyrLines.map(function(l,i){ return '<p data-l="'+i+'">'+esc2(l.s)+'</p>'; }).join("");
+        syncLyric();
+      }).catch(function(){ body.innerHTML='<p style="padding-top:40px">歌词取不到</p>'; });
+    }
+    function syncLyric(){
+      if(!lyrLines.length) return;
+      var body=$("mLyrBody"); if(!body) return;
+      var t = audio.currentTime || 0, idx=-1;
+      for(var i=0;i<lyrLines.length;i++){ if(lyrLines[i].t <= t + 0.25) idx=i; else break; }
+      var ps = body.querySelectorAll("p");
+      for(var j=0;j<ps.length;j++) ps[j].classList.toggle("cur", j===idx);
+      if(idx>=0 && ps[idx]){
+        var top = ps[idx].offsetTop - body.clientHeight*0.42;
+        body.scrollTo ? body.scrollTo({top:Math.max(0,top),behavior:"smooth"}) : (body.scrollTop = Math.max(0,top));
+      }
+    }
+
+    /* ---- 事件 ---- */
+    if(audio){
+      audio.addEventListener("play", function(){ M.playing=true; setPlayIcon(true); });
+      audio.addEventListener("pause", function(){ M.playing=false; setPlayIcon(false); });
+      audio.addEventListener("timeupdate", function(){
+        if(audio.duration) setProgUI(audio.currentTime/audio.duration);
+        syncLyric();
+      });
+      audio.addEventListener("ended", function(){ playAt(M.idx+1); });
+      audio.addEventListener("loadedmetadata", function(){
+        if(M.cur && !M.cur.dur && audio.duration){
+          M.cur.dur = audio.duration*1000;
+          renderLists();
+        }
+      });
+    }
+
+    var playBtn=$("mPlay");
+    if(playBtn) playBtn.onclick = function(){
+      if(!audio.src){
+        var list=currentList();
+        if(list && list.length) playItem(list[0], list);
+        else toast("列表是空的");
+        return;
+      }
+      if(audio.paused) audio.play(); else audio.pause();
+    };
+    var prevBtn=$("mPrev"); if(prevBtn) prevBtn.onclick = function(){ playAt(M.idx-1); };
+    var nextBtn=$("mNext"); if(nextBtn) nextBtn.onclick = function(){ playAt(M.idx+1); };
+    var favBtn=$("mFav"); if(favBtn) favBtn.onclick = toggleFav;
+
+    var progEl=$("mProg");
+    if(progEl){
+      var dragging=false;
+      function seekAt(x){
+        var r=progEl.getBoundingClientRect();
+        var p=Math.max(0,Math.min(1,(x-r.left)/r.width));
+        setProgUI(p);
+        if(audio.duration) audio.currentTime = p*audio.duration;
+      }
+      progEl.addEventListener("pointerdown", function(e){ dragging=true; try{progEl.setPointerCapture(e.pointerId);}catch(x){} seekAt(e.clientX); });
+      progEl.addEventListener("pointermove", function(e){ if(dragging) seekAt(e.clientX); });
+      progEl.addEventListener("pointerup", function(){ dragging=false; });
+      progEl.addEventListener("pointercancel", function(){ dragging=false; });
+    }
+
+    /* 点卡片：主卡开歌词，左右切歌 */
+    var mcMain=$("mcMain"); if(mcMain) mcMain.onclick = openLyric;
+    var mcPrev=$("mcPrev"); if(mcPrev) mcPrev.onclick = function(){ playAt(M.idx-1); };
+    var mcNext=$("mcNext"); if(mcNext) mcNext.onclick = function(){ playAt(M.idx+1); };
+    var lyrClose=$("mLyrClose"); if(lyrClose) lyrClose.onclick = function(){ $("mLyrMask").classList.remove("on"); };
+
+    /* 列表点击 */
+    document.addEventListener("click", function(e){
+      var row = e.target.closest && e.target.closest("#mList .mi");
+      if(row){
+        var arr=(M.mode==="ext")?M.favExt:M.local;
+        var i=parseInt(row.getAttribute("data-i"),10);
+        if(arr[i]) playItem(arr[i], arr);
+        return;
+      }
+      var rr = e.target.closest && e.target.closest("#mRecList .mi");
+      if(rr){
+        var rl=(M.mode==="ext")?M.recSongs:[];
+        var j2=parseInt(rr.getAttribute("data-i"),10);
+        if(rl[j2]) playItem(rl[j2], rl);
+        return;
+      }
+      var rc = e.target.closest && e.target.closest("#mRecs .rc");
+      if(rc){
+        var k=parseInt(rc.getAttribute("data-r"),10);
+        if(M.recs[k]) loadRecPlaylist(M.recs[k].id);
+      }
+    });
+
+    /* tab 点击 */
+    var tabsEl=$("mTabs");
+    if(tabsEl) tabsEl.addEventListener("click", function(e){
+      var t = e.target.closest && e.target.closest(".mTab");
+      if(!t || t.disabled) return;
+      tabTo(t.getAttribute("data-mt"));
+    });
+
+    /* 设置 */
+    var segEl=$("mSeg");
+    if(segEl) segEl.addEventListener("click", function(e){
+      var it = e.target.closest && e.target.closest(".mSegItem");
+      if(!it) return;
+      setMode(it.getAttribute("data-mode"));
+    });
+    var apiInp=$("mApiBase");
+    if(apiInp){
+      apiInp.addEventListener("change", function(){
+        M.api = apiInp.value.trim(); mSaveCfg();
+        M.recLoaded=false; M.recs=[]; M.recSongs=[];
+        renderRecs(); renderLists();
+        if(M.api){ toast("地址存好了"); } 
+      });
+    }
+
+    /* 上传 */
+    var upBtn=$("mUpBtn"); if(upBtn) upBtn.onclick = openDlg;
+    var mask=$("mDlgMask"); if(mask) mask.onclick = closeDlg;
+    var cancel=$("mDlgCancel"); if(cancel) cancel.onclick = closeDlg;
+    var pickA=$("mPickAudio"); if(pickA) pickA.onclick = function(){
+      pickFile("audio/*", function(f){ upAudio=f; $("mPickAudioName").textContent=f.name; });
+    };
+    var pickC=$("mPickCover"); if(pickC) pickC.onclick = function(){
+      pickFile("image/*", function(f){
+        var fr=new FileReader();
+        fr.onload=function(){
+          var img=new Image();
+          img.onload=function(){
+            var s=Math.min(1, 320/Math.max(img.width,img.height));
+            var cv=document.createElement("canvas");
+            cv.width=Math.round(img.width*s); cv.height=Math.round(img.height*s);
+            cv.getContext("2d").drawImage(img,0,0,cv.width,cv.height);
+            upCover=cv.toDataURL("image/jpeg",0.8);
+            $("mPickCoverName").textContent="已选";
+            $("mPickCover").style.backgroundImage='url("'+upCover+'")';
+            $("mPickCover").style.backgroundSize="cover";
+          };
+          img.src=fr.result;
+        };
+        fr.readAsDataURL(f);
+      });
+    };
+    var saveBtn=$("mDlgSave"); if(saveBtn) saveBtn.onclick = saveUpload;
+
+    /* ---- 初始化（由 paintMusic 调） ---- */
+    window.__smMusicPaint = function(){
+      M.mode = P.musicMode || "ext";
+      M.api = P.musicApi || "";
+      try{
+        var raw = L("sm_music_fav", null);
+        if(raw && raw.length) M.favExt = raw;
+      }catch(e){}
+      var inp=$("mApiBase"); if(inp && !inp.value) inp.value = M.api;
+      applyMode();
+      if(M.mode==="sys"){
+        dbAll().then(function(all){
+          M.local = all.map(function(r){ return { id:r.id, name:r.name, artist:r.artist, cover:r.cover||"", dur:r.dur||0, isLocal:true }; });
+          renderLists();
+        }).catch(function(){});
+      }
+      if(M.mode==="ext" && M.api){
+        M.recSongs=[]; M.recs=[]; renderRecs(); renderLists();
+        loadRec();
+      }
+      renderSong();
+      tabTo(M.tab, true);
+      setTimeout(function(){
+        var ink=$("mTabInk");
+        if(ink){ ink.style.transition="none"; setTimeout(function(){ ink.style.transition=""; }, 60); }
+      }, 30);
+    };
+  })();
 
   /* ===== 收尾：闭合 (function(){ 包裹 ===== */
 })();
