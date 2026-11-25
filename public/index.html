@@ -123,7 +123,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 /* 叠放拍立得（占位） */
 .hmPols{flex:0 0 auto;position:relative;width:132px;height:152px}
 .pol{position:absolute;background:#FFFFFF;border-radius:4px;padding:5px 5px 15px;
-  box-shadow:0 9px 22px -13px rgba(0,0,0,.5),0 0 0 .5px rgba(0,0,0,.06)}
+  box-shadow:0 9px 22px -13px rgba(0,0,0,.5),0 0 0 .5px rgba(0,0,0,.06);
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .pol .polImg{width:100%;height:100%;border-radius:2px;
   background:linear-gradient(160deg,#EFEDE9,#DAD7D2)}
 .pol1{width:76px;height:94px;right:0;bottom:0;transform:rotate(5.5deg)}
@@ -173,9 +174,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 .hmDisc::before{content:"";position:absolute;inset:34%;border-radius:50%;
   background:radial-gradient(circle at 38% 30%, #FFFFFF 0%, #F4F1EC 45%, #DBD7D0 100%);
   box-shadow:inset 0 0 0 .6px rgba(0,0,0,.14),0 1px 5px rgba(0,0,0,.35)}
-.hmDisc::after{content:"";position:absolute;left:50%;top:50%;width:6px;height:6px;
-  margin:-3px 0 0 -3px;border-radius:50%;background:#161616;
-  box-shadow:0 0 0 1.6px rgba(255,255,255,.55)}
+.discLabel{position:absolute;inset:34%;border-radius:50%;z-index:2;
+  background-size:cover;background-position:center}
 @keyframes discSpin{to{transform:rotate(360deg)}}
 .hmDiscWrap::after{content:"";position:absolute;inset:0;border-radius:50%;pointer-events:none;
   background:
@@ -497,7 +497,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
   transition:background .2s;cursor:pointer}
 .mi:active{background:var(--surface)}
 .mi.on{background:var(--surface2)}
-.miCov{width:42px;height:42px;flex:0 0 auto;border-radius:9px;background:var(--surface);
+.miCov{width:42px;height:42px;flex:0 0 auto;border-radius:9px;
+  background-color:var(--surface);background-image:var(--fb-cover,none);
   background-size:cover;background-position:center}
 .miTxt{flex:1 1 auto;min-width:0}
 .miName{font-size:12.5px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -693,8 +694,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
           <div class="aSub" id="hmSubTxt">从今天开始算</div>
         </div>
         <div class="hmPols" id="hmPols">
-          <div class="pol pol2"><div class="polImg" data-slot="2"></div></div>
-          <div class="pol pol1"><div class="polImg" data-slot="1"></div></div>
+          <div class="pol pol2" data-pol="2"><div class="polImg" data-slot="2"></div></div>
+          <div class="pol pol1" data-pol="1"><div class="polImg" data-slot="1"></div></div>
         </div>
       </div>
 
@@ -719,7 +720,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
           <div class="hmVolFill" id="hmVolFill"></div>
           <div class="hmVolKnob" id="hmVolKnob"></div>
         </div>
-        <div class="hmDiscWrap" id="hmDiscWrap"><div class="hmDisc" id="hmDisc"></div></div>
+        <div class="hmDiscWrap" id="hmDiscWrap"><div class="hmDisc" id="hmDisc"><div class="discLabel" id="discLabel"></div></div></div>
         <div class="hmLyr" id="hmLyr"><ul id="hmLyrics"></ul></div>
       </div>
 
@@ -1454,7 +1455,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
     }catch(e){}
     return "";
   }
-  var P = { name:"青青", sig:"泊在青山里", face:"青", id:"qing", sign:"泊在青山里", nick:"青青", anniv:"", annivText:"", musicMode:"ext", musicApi:"",
+  var P = { name:"青青", sig:"泊在青山里", face:"青", id:"qing", sign:"泊在青山里", nick:"青青", anniv:"", annivText:"", musicMode:"ext", musicApi:"", pol1:"", pol2:"", discFallback:"",
             linName:"林言", linFace:"林", model:"deepseek-v4-flash" };
   var __setInited = false;
   var KEY = { msg:"sm2_msgs", dy:"sm2_diary", cfg:"sm2_cfg", draft:"sm2_draft" };
@@ -1966,6 +1967,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
     var h1=$("heroMe"); if(h1){ h1.textContent = P.meImg ? "" : P.face; h1.style.backgroundImage = P.meImg?("url("+P.meImg+")"):""; }
     var h2b=$("heroLin"); if(h2b){ h2b.textContent = P.linImg ? "" : P.linFace; h2b.style.backgroundImage = P.linImg?("url("+P.linImg+")"):""; }
     /* 顶部时间 */
+    try{ if(window.__smPaintSlots) window.__smPaintSlots(); }catch(e){}
     var at=$("hmAnnivText"); if(at) at.textContent = P.annivText || "Together with";
     var hs=$("hmSubTxt");
     if(hs){
@@ -4450,6 +4452,73 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
   }
   window.__smInlineEdit = inlineEdit;
 
+  /* —— 主界面图片位：拍立得 / 唱片中心 —— */
+  function pickImageFile(cb){
+    var inp=document.createElement("input");
+    inp.type="file"; inp.accept="image/*";
+    inp.style.cssText="position:fixed;left:-9999px;top:0;width:1px;height:1px;opacity:0";
+    document.body.appendChild(inp);
+    inp.onchange=function(){
+      var f=inp.files&&inp.files[0];
+      if(inp.parentNode) inp.parentNode.removeChild(inp);
+      if(!f) return;
+      var fr=new FileReader();
+      fr.onload=function(){
+        var img=new Image();
+        img.onload=function(){
+          var sc=Math.min(1, 460/Math.max(img.width,img.height));
+          var cv=document.createElement("canvas");
+          cv.width=Math.max(1,Math.round(img.width*sc));
+          cv.height=Math.max(1,Math.round(img.height*sc));
+          cv.getContext("2d").drawImage(img,0,0,cv.width,cv.height);
+          try{ cb(cv.toDataURL("image/jpeg",0.82)); }catch(err){ toast("这张图读不了"); }
+        };
+        img.onerror=function(){ toast("这张图读不了"); };
+        img.src=fr.result;
+      };
+      fr.readAsDataURL(f);
+    };
+    inp.click();
+  }
+  function paintSlots(){
+    ["1","2"].forEach(function(k){
+      var el = document.querySelector('.pol[data-pol="'+k+'"] .polImg');
+      if(el) el.style.backgroundImage = P["pol"+k] ? ('url("'+P["pol"+k]+'")') : "";
+    });
+    var dl = $("discLabel");
+    if(dl) dl.style.backgroundImage = P.discFallback ? ('url("'+P.discFallback+'")') : "";
+    try{
+      document.documentElement.style.setProperty("--fb-cover",
+        P.discFallback ? ('url("'+P.discFallback+'")') : "none");
+    }catch(e){}
+  }
+  window.__smPaintSlots = paintSlots;
+
+  function bindSlot(el, key, label){
+    if(!el) return;
+    var timer=null, long=false;
+    function clear(){ if(timer){ clearTimeout(timer); timer=null; } }
+    el.addEventListener("pointerdown", function(e){
+      long=false; clear();
+      timer=setTimeout(function(){
+        long=true;
+        if(P[key]){ P[key]=""; save(); paintSlots(); toast(label+"删掉了"); }
+        else toast(label+"还没图");
+      }, 650);
+    });
+    el.addEventListener("pointerup", clear);
+    el.addEventListener("pointercancel", clear);
+    el.addEventListener("click", function(e){
+      e.stopPropagation();
+      if(long){ long=false; return; }
+      pickImageFile(function(url){ P[key]=url; save(); paintSlots(); toast("放好了"); });
+    });
+  }
+  bindSlot(document.querySelector('.pol[data-pol="1"]'), "pol1", "这张");
+  bindSlot(document.querySelector('.pol[data-pol="2"]'), "pol2", "这张");
+  bindSlot($("discLabel"), "discFallback", "兜底图");
+  paintSlots();
+
   var sg=$("hmSign");
   if(sg) sg.onclick = function(e){
     e.stopPropagation();
@@ -4743,8 +4812,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 
     function coverOf(it){
       if(!it) return "";
-      if(it.cover) return it.cover;
-      return "";
+      return it.cover || "";
+    }
+    function fallbackCover(){
+      return (typeof P !== "undefined" && P.discFallback) ? P.discFallback : "";
     }
 
     var blobUrls = {};
@@ -4803,7 +4874,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
       if(s2) s2.textContent = it ? (it.artist || "未知") : "挑一首吧";
 
       var main=$("mcMain") && $("mcMain").querySelector(".cov");
-      if(main){ main.style.backgroundImage = coverOf(it) ? ('url("'+coverOf(it)+'")') : ""; }
+      var _mc = coverOf(it) || fallbackCover();
+      if(main){ main.style.backgroundImage = _mc ? ('url("'+_mc+'")') : ""; }
 
       var n = M.queue.length;
       var prev = n>1 ? M.queue[(M.idx-1+n)%n] : null;
@@ -4966,6 +5038,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
       }
     }
 
+    function removeFromPl(i){
+      if(!M.playlist[i]) return;
+      M.playlist.splice(i,1);
+      savePlaylist();
+      renderPl();
+      refreshAddBtns();
+      toast("从播放栏移除了");
+    }
+
     /* ---- 播放栏抽屉 ---- */
     function openDrawer(){
       renderPl();
@@ -4994,12 +5075,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
         var pl = j && j.playlist;
         if(!pl){ toast("合集取不到"); return; }
         var all = pl.tracks || [];
-        var muted = all.length > 200 ? all.length : 0;
-        var songs = all.slice(0,200).map(function(t){
+        var muted = all.length > 100 ? all.length : 0;
+        var songs = all.slice(0,100).map(function(t){
           return { id:t.id, name:t.name, artist:(t.ar&&t.ar[0]&&t.ar[0].name)||"未知",
                    cover:thumb((t.al&&t.al.picUrl)||"",120), dur:t.dt||0 };
         });
-        if(muted) toast("这个合集有 "+muted+" 首，先取前 200");
+        if(muted) toast("这个合集有 "+muted+" 首，先取前 100");
         M.col = { id: rec.id, name: pl.name || rec.name || "合集",
                   cover: thumb(pl.coverImgUrl || rec.cover || "", 400),
                   count: pl.trackCount || all.length, songs: songs };
@@ -5012,7 +5093,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
       var c=M.col; if(!c) return;
       var bg=$("mColBg"), nm=$("mColName"), mt=$("mColMeta"), nw=$("mColNow"),
           cv=$("mColCover"), list=$("mColList");
-      if(bg) bg.style.backgroundImage = c.cover ? ('url("'+c.cover+'")') : "";
+      var _fb = (typeof P !== "undefined" && P.discFallback) ? P.discFallback : "";
+      var _bgU = c.cover || _fb;
+      if(bg) bg.style.backgroundImage = _bgU ? ('url("'+_bgU+'")') : "";
       if(nm) nm.textContent = c.name;
       if(mt) mt.textContent = (c.count && c.count > c.songs.length)
         ? (c.count + " 首 · 显示前 " + c.songs.length)
@@ -5281,6 +5364,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 
     /* 播放栏 / 抽屉 / 合集 */
     var qBtn=$("mQueueBtn"); if(qBtn) qBtn.onclick = openDrawer;
+    (function(){
+      var box=$("mPlList");
+      if(!box) return;
+      var t=null, long=false, idx=-1;
+      function cancel(){ if(t){ clearTimeout(t); t=null; } }
+      box.addEventListener("pointerdown", function(e){
+        var row = upTo(e.target, ".mi");
+        if(!row) return;
+        idx = parseInt(row.getAttribute("data-i"),10);
+        long = false; cancel();
+        t = setTimeout(function(){ long = true; removeFromPl(idx); }, 650);
+      });
+      box.addEventListener("pointerup", cancel);
+      box.addEventListener("pointercancel", cancel);
+      box.addEventListener("pointerleave", cancel);
+      box.addEventListener("click", function(e){
+        if(long){ long = false; e.stopPropagation(); e.preventDefault(); }
+      }, true);
+    })();
     var dMask=$("mDrawerMask"); if(dMask) dMask.onclick = closeDrawer;
     var colBack=$("mColBack"); if(colBack) colBack.onclick = closeCol;
     var colPlay=$("mColPlayBtn"); if(colPlay) colPlay.onclick = toggleCollectionPlay;
