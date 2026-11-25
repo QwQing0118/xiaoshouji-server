@@ -587,6 +587,82 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
   text-align:center;transition:color .3s,font-size .3s}
 .mLyrBody p.cur{color:var(--ink);font-size:14.5px;font-weight:600}
 
+
+/* —— 播放栏 / 抽屉 —— */
+.mCtrls{position:relative}
+.mQueueBtn{position:absolute;right:0;top:50%;margin-top:-14px;width:28px;height:28px;
+  border:none;background:transparent;color:var(--ink3);display:flex;align-items:center;
+  justify-content:center;padding:0;border-radius:8px}
+.mQueueBtn:active{background:var(--surface)}
+.miAdd{width:26px;height:26px;flex:0 0 auto;border-radius:50%;border:none;background:var(--surface);
+  color:var(--ink2);margin-left:4px;display:flex;align-items:center;justify-content:center;padding:0;
+  transition:transform .16s,background .2s,color .2s}
+.miAdd:active{transform:scale(.88)}
+.miAdd.on{background:var(--ink);color:var(--bg)}
+
+.mDrawerMask{position:absolute;inset:0;background:rgba(18,18,18,.26);opacity:0;
+  pointer-events:none;transition:opacity .26s;z-index:50}
+.mDrawerMask.on{opacity:1;pointer-events:auto}
+.mDrawer{position:absolute;left:0;right:0;bottom:0;height:52%;background:var(--bg);
+  border-radius:22px 22px 0 0;z-index:51;display:flex;flex-direction:column;
+  transform:translateY(101%);transition:transform .40s cubic-bezier(.22,.9,.28,1);
+  box-shadow:0 -14px 34px -24px rgba(0,0,0,.5)}
+.mDrawer.on{transform:none}
+.mDrawerGrab{width:36px;height:4px;border-radius:2px;background:var(--line);
+  margin:10px auto 4px;flex:0 0 auto}
+.mDrawerHead{display:flex;align-items:center;justify-content:space-between;
+  padding:2px 20px 8px;flex:0 0 auto}
+.mDrawerHead .dh{font-family:'Playfair',Georgia,serif;font-style:italic;font-size:13px;
+  letter-spacing:.8px;color:var(--ink)}
+.mDrawerHead .dc{font-size:10px;color:var(--ink4);letter-spacing:.5px}
+.mDrawerList{flex:1 1 auto;min-height:0;overflow-y:auto;padding:0 12px 20px}
+
+/* —— 合集详情 —— */
+.mColView{position:absolute;inset:0;z-index:60;display:flex;flex-direction:column;
+  background:var(--bg);opacity:0;pointer-events:none;transform:translateX(30px);
+  transition:opacity .28s ease,transform .38s cubic-bezier(.22,.9,.28,1)}
+.mColView.on{opacity:1;pointer-events:auto;transform:none}
+.mColTop{position:relative;flex:0 0 37%;overflow:hidden}
+.mColBg{position:absolute;inset:-12%;background-size:cover;background-position:center;
+  background-color:var(--surface);filter:blur(24px);transform:scale(1.1)}
+.mColShade{position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(255,255,255,.55) 0%,rgba(255,255,255,.78) 62%,rgba(255,255,255,.92) 100%)}
+.mColInner{position:relative;z-index:2;display:flex;flex-direction:column;height:100%;
+  padding:8px 20px 14px}
+.mColBack{width:32px;height:32px;flex:0 0 auto;border:none;background:transparent;
+  color:var(--ink);display:flex;align-items:center;justify-content:center;padding:0;border-radius:50%}
+.mColBack:active{background:rgba(255,255,255,.5)}
+.mColRow{display:flex;align-items:center;gap:16px;margin-top:2px}
+.mColArt{position:relative;width:92px;height:92px;flex:0 0 auto}
+.mColFilmWrap{position:absolute;left:50%;top:50%;width:84px;height:84px;margin:-42px 0 0 -42px;
+  transform:translateX(41px);z-index:1}
+.mColFilm{width:100%;height:100%;border-radius:50%;
+  background:
+    repeating-radial-gradient(circle at 50% 50%,
+      rgba(255,255,255,.06) 0 .4px, rgba(0,0,0,0) .4px 2.2px),
+    radial-gradient(circle at 34% 26%, #464646 0%, #242424 40%, #0E0E0E 100%);
+  box-shadow:0 10px 20px -12px rgba(0,0,0,.6),inset 0 0 0 1px rgba(255,255,255,.08)}
+.mColCover{position:absolute;inset:0;border-radius:13px;z-index:2;background-color:var(--surface);
+  background-size:cover;background-position:center;
+  box-shadow:0 10px 22px -12px rgba(0,0,0,.5),0 0 0 .5px rgba(0,0,0,.06)}
+.mColInfo{flex:1 1 auto;min-width:0}
+.mColName{font-family:'Songti SC','Source Han Serif SC','Noto Serif CJK SC',Georgia,serif;
+  font-size:16px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis;letter-spacing:.3px}
+.mColMeta{font-size:10.5px;color:var(--ink3);margin-top:6px;letter-spacing:.6px}
+.mColNow{font-size:10px;color:var(--ink4);margin-top:3px;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis}
+.mColPlayBtn{margin-top:auto;margin-bottom:2px;height:38px;border-radius:19px;border:none;
+  background:linear-gradient(115deg,var(--ink) 0%,var(--ink2) 100%);color:var(--bg);
+  font-size:12.5px;letter-spacing:.8px;font-family:inherit;font-weight:500;
+  box-shadow:0 12px 22px -14px rgba(0,0,0,.65)}
+.mColPlayBtn:active{transform:scale(.985)}
+.mColPlayBtn.cancel{background:linear-gradient(115deg,var(--surface) 0%,var(--surface2) 100%);
+  color:var(--ink2);box-shadow:0 6px 14px -12px rgba(0,0,0,.4)}
+.mColList{flex:1 1 auto;min-height:0;overflow-y:auto;background:var(--surface);
+  padding:10px 12px 20px}
+.mColList .miCov{border-radius:9px}
+
 </style>
 </head>
 <body>
@@ -764,6 +840,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
             <button class="mBtn mFav" id="mFav" aria-label="收藏">
               <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path class="heartFill" d="M12 20.1s-7.3-4.5-7.3-9.3A4.35 4.35 0 0 1 12 7.7a4.35 4.35 0 0 1 7.3 3.1c0 4.8-7.3 9.3-7.3 9.3z" fill="currentColor" stroke="none"/><path d="M12 20.1s-7.3-4.5-7.3-9.3A4.35 4.35 0 0 1 12 7.7a4.35 4.35 0 0 1 7.3 3.1c0 4.8-7.3 9.3-7.3 9.3z"/></svg>
             </button>
+            <button class="mQueueBtn" id="mQueueBtn" aria-label="播放栏">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4.2 7h15.6M4.2 12h15.6M4.2 17h9.4"/></svg>
+            </button>
           </div>
         </div>
       </div>
@@ -816,6 +895,78 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
             <div class="mHint">歌单页会变成「收藏」，右上角那颗小加号上传自己的音频。自己传的歌没有歌词。</div>
           </div>
         </div>
+      </div>
+
+      <div class="mColl" id="mColl">
+        <div class="mCollTop">
+          <div class="mCollBg" id="mCollBg"></div>
+          <div class="mCollVeil"></div>
+          <button class="mBack mCollBack" id="mCollBack" aria-label="返回">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.6 5.4 8 12l6.6 6.6"/></svg>
+          </button>
+          <div class="mCollHead">
+            <div class="mCollArt">
+              <div class="mArtSq" id="mArtSq"></div>
+              <div class="mArtDisc" id="mArtDisc"></div>
+            </div>
+            <div class="mCollMeta">
+              <div class="mCollName" id="mCollName">合集</div>
+              <div class="mCollSub" id="mCollSub">0 首</div>
+              <div class="mCollNow" id="mCollNow"></div>
+            </div>
+          </div>
+        </div>
+        <div class="mCollBody">
+          <div class="mList" id="mCollList"></div>
+        </div>
+        <div class="mCollFoot">
+          <button class="mCollPlay" id="mCollPlay">播放合集</button>
+        </div>
+      </div>
+
+      <div class="mDrMask" id="mDrMask"></div>
+      <div class="mDrawer" id="mDrawer">
+        <div class="mDrBar"></div>
+        <div class="mDrHead">
+          <span class="mDrT">播放栏</span>
+          <span class="mDrN" id="mDrN">0</span>
+        </div>
+        <div class="mDrList" id="mDrList"></div>
+      </div>
+
+      <div class="mDrawerMask" id="mDrawerMask"></div>
+      <div class="mDrawer" id="mDrawer">
+        <div class="mDrawerGrab"></div>
+        <div class="mDrawerHead">
+          <div class="dh">Playlist</div>
+          <div class="dc" id="mPlCount">0 首</div>
+        </div>
+        <div class="mDrawerList" id="mPlList"></div>
+      </div>
+
+      <div class="mColView" id="mColView">
+        <div class="mColTop">
+          <div class="mColBg" id="mColBg"></div>
+          <div class="mColShade"></div>
+          <div class="mColInner">
+            <button class="mColBack" id="mColBack" aria-label="返回">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14.6 5.4 8 12l6.6 6.6"/></svg>
+            </button>
+            <div class="mColRow">
+              <div class="mColArt">
+                <div class="mColFilmWrap"><div class="mColFilm"></div></div>
+                <div class="mColCover" id="mColCover"></div>
+              </div>
+              <div class="mColInfo">
+                <div class="mColName" id="mColName">合集</div>
+                <div class="mColMeta" id="mColMeta">0 首</div>
+                <div class="mColNow" id="mColNow">还没在放</div>
+              </div>
+            </div>
+            <button class="mColPlayBtn" id="mColPlayBtn">播放合集</button>
+          </div>
+        </div>
+        <div class="mColList" id="mColList"></div>
       </div>
 
       <div class="mDlgMask" id="mDlgMask"></div>
@@ -4494,7 +4645,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 
   /* ================= 音乐页 ================= */
   var M = { mode:"ext", api:"", tab:"list", queue:[], idx:-1, cur:null, playing:false,
-            favExt:[], local:[], recs:[], recSongs:[], recLoaded:false };
+            favExt:[], local:[], recs:[], recSongs:[], recLoaded:false,
+            playlist:[], source:"playlist", col:null, viewCollection:false, playingColId:null };
 
   (function(){
     var DB=null;
@@ -4610,12 +4762,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
     }
 
     function currentList(){
-      if(M.tab === "rec") return M.recSongs;
-      return M.mode === "ext" ? M.favExt : M.local;
+      if(M.source === "collection" && M.col) return M.col.songs;
+      return M.playlist;
     }
 
-    function playItem(it, list){
+    function playItem(it, list, src){
       if(!it) return;
+      if(src) M.source = src;
       M.queue = (list || currentList() || []).slice();
       M.idx = idxOf(M.queue, function(x){ return String(x.id) === String(it.id); });
       if(M.idx < 0){ M.queue.unshift(it); M.idx = 0; }
@@ -4656,6 +4809,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 
       var fv=$("mFav");
       if(fv) fv.classList.toggle("on", !!(it && isFav(it)));
+      var nw=$("mColNow");
+      if(nw) nw.textContent = (it && M.source==="collection") ? ("正在播放 · " + (it.name||"")) : "还没在放";
+      var cc=$("mColCover");
+      if(cc && it && it.cover) cc.style.backgroundImage = 'url("'+it.cover+'")';
     }
 
     function isFav(it){
@@ -4664,14 +4821,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
       return M.local.some(function(x){ return String(x.id)===String(it.id); });
     }
 
-    function rowHtml(it, i){
+    function isInPl(song){
+      if(!song) return false;
+      for(var i=0;i<M.playlist.length;i++){ if(String(M.playlist[i].id)===String(song.id)) return true; }
+      return false;
+    }
+    function rowHtml(it, i, from){
       var on = (M.cur && String(M.cur.id)===String(it.id)) ? " on" : "";
       var cv = coverOf(it) ? (' style="background-image:url(&quot;'+coverOf(it)+'&quot;)"') : "";
+      var add = "";
+      if(from && from !== "pl"){
+        var inPl = isInPl(it);
+        add = '<button class="miAdd'+(inPl?" on":"")+'" data-add="'+i+'" data-from="'+from+'">'+(inPl?"✓":"+")+'</button>';
+      }
       return '<div class="mi'+on+'" data-i="'+i+'">'+
         '<div class="miCov"'+cv+'></div>'+
         '<div class="miTxt"><div class="miName">'+esc2(it.name||"未命名")+'</div>'+
         '<div class="miArt">'+esc2(it.artist||"未知")+'</div></div>'+
-        '<div class="miDur">'+mmss(it.dur)+'</div></div>';
+        '<div class="miDur">'+mmss(it.dur)+'</div>'+add+'</div>';
     }
 
     function renderLists(){
@@ -4683,7 +4850,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
         if(!arr.length){
           listBox.innerHTML = '<div class="mEmpty">'+(M.mode==="ext"?"还没有收藏的歌":"还没有上传的歌")+'</div>';
         }else{
-          listBox.innerHTML = arr.map(rowHtml).join("");
+          listBox.innerHTML = arr.map(function(x,i){ return rowHtml(x,i,"list"); }).join("");
         }
       }
       if(recBox){
@@ -4692,7 +4859,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
         }else if(!M.recSongs.length){
           recBox.innerHTML = '<div class="mEmpty">'+(M.api ? "正在取推荐…" : "去「设置」填一下接口地址")+'</div>';
         }else{
-          recBox.innerHTML = M.recSongs.map(rowHtml).join("");
+          recBox.innerHTML = M.recSongs.map(function(x,i){ return rowHtml(x,i,"rec"); }).join("");
         }
       }
       var t=$("mListTitle");
@@ -4751,17 +4918,111 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
       });
     }
 
-    function loadRecPlaylist(pid){
-      mApi("/playlist/detail", "id="+encodeURIComponent(pid)).then(function(j){
-        var pl = j && j.playlist; if(!pl) return;
-        var tracks = (pl.tracks||[]).map(function(t){
+    /* ---- 播放栏（手动队列） ---- */
+    function savePlaylist(){ try{ S("sm_music_pl", M.playlist); }catch(e){} }
+    function songAt(from, i){
+      if(from==="list") return (M.mode==="ext" ? M.favExt : M.local)[i];
+      if(from==="rec") return M.recSongs[i];
+      if(from==="col") return (M.col && M.col.songs) ? M.col.songs[i] : null;
+      return null;
+    }
+    function addToPl(song){
+      if(!song) return;
+      if(isInPl(song)){ toast("已经在播放栏了"); return; }
+      M.playlist.push(song);
+      savePlaylist();
+      renderPl();
+      refreshAddBtns();
+      toast("加进播放栏了");
+    }
+    function renderPl(){
+      var box=$("mPlList"); if(!box) return;
+      if(!M.playlist.length){
+        box.innerHTML = '<div class="mEmpty">播放栏是空的<br>去列表点 + 加进来</div>';
+      }else{
+        box.innerHTML = M.playlist.map(function(x,i){ return rowHtml(x,i,"pl"); }).join("");
+      }
+      var c=$("mPlCount"); if(c) c.textContent = M.playlist.length + " 首";
+    }
+    function refreshAddBtns(){
+      var btns = document.querySelectorAll(".miAdd");
+      for(var i=0;i<btns.length;i++){
+        var b=btns[i];
+        var on = isInPl(songAt(b.getAttribute("data-from"), parseInt(b.getAttribute("data-add"),10)));
+        b.classList.toggle("on", on);
+        b.textContent = on ? "✓" : "+";
+      }
+    }
+
+    /* ---- 播放栏抽屉 ---- */
+    function openDrawer(){
+      renderPl();
+      var m=$("mDrawerMask"), d=$("mDrawer");
+      if(m) m.classList.add("on");
+      if(d) d.classList.add("on");
+    }
+    function closeDrawer(){
+      var m=$("mDrawerMask"), d=$("mDrawer");
+      if(m) m.classList.remove("on");
+      if(d) d.classList.remove("on");
+    }
+
+    /* ---- 合集详情 ---- */
+    function openCollection(rec){
+      if(!rec) return;
+      mApi("/playlist/detail", "id="+encodeURIComponent(rec.id)).then(function(j){
+        var pl = j && j.playlist;
+        if(!pl){ toast("合集取不到"); return; }
+        var songs = (pl.tracks||[]).map(function(t){
           return { id:t.id, name:t.name, artist:(t.ar&&t.ar[0]&&t.ar[0].name)||"未知",
                    cover:(t.al&&t.al.picUrl)||"", dur:t.dt||0 };
         });
-        M.recSongs = tracks;
-        renderLists();
-        var p=$("mPanelRec"); if(p) p.scrollTop = 200;
-      }).catch(function(){ toast("取歌单失败"); });
+        M.col = { id: rec.id, name: pl.name || rec.name || "合集",
+                  cover: pl.coverImgUrl || rec.cover || "",
+                  count: pl.trackCount || songs.length, songs: songs };
+        M.viewCollection = true;
+        renderColView();
+        var v=$("mColView"); if(v) v.classList.add("on");
+      }).catch(function(){ toast("合集取不到，看看接口地址"); });
+    }
+    function renderColView(){
+      var c=M.col; if(!c) return;
+      var bg=$("mColBg"), nm=$("mColName"), mt=$("mColMeta"), nw=$("mColNow"),
+          cv=$("mColCover"), list=$("mColList");
+      if(bg) bg.style.backgroundImage = c.cover ? ('url("'+c.cover+'")') : "";
+      if(nm) nm.textContent = c.name;
+      if(mt) mt.textContent = (c.count || c.songs.length) + " 首";
+      if(nw) nw.textContent = (M.cur && M.source==="collection") ? ("正在播放 · " + (M.cur.name||"")) : "还没在放";
+      if(cv) cv.style.backgroundImage = (M.cur && M.cur.cover) ? ('url("'+M.cur.cover+'")')
+                                     : (c.cover ? ('url("'+c.cover+'")') : "");
+      if(list) list.innerHTML = c.songs.map(function(x,i){ return rowHtml(x,i,"col"); }).join("");
+      var b=$("mColPlayBtn");
+      if(b){
+        var playing = (M.source === "collection" && String(M.playingColId)===String(c.id));
+        b.textContent = playing ? "取消播放合集" : "播放合集";
+        b.classList.toggle("cancel", playing);
+      }
+    }
+    function closeCol(){
+      M.viewCollection = false;
+      var v=$("mColView"); if(v) v.classList.remove("on");
+    }
+    function toggleCollectionPlay(){
+      if(!M.col) return;
+      if(M.source === "collection" && String(M.playingColId)===String(M.col.id)){
+        M.source = "playlist";
+        M.playingColId = null;
+        renderColView();
+        if(M.playlist.length) playItem(M.playlist[0], M.playlist, "playlist");
+        else { try{ audio.pause(); }catch(e){} }
+        toast("回到播放栏了");
+      }else{
+        if(!M.col.songs.length){ toast("这个合集是空的"); return; }
+        M.playingColId = M.col.id;
+        playItem(M.col.songs[0], M.col.songs, "collection");
+        renderColView();
+        toast("按合集顺序播放");
+      }
     }
 
     /* ---- 收藏 ---- */
@@ -4965,26 +5226,35 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 
     /* 列表点击 */
     document.addEventListener("click", function(e){
-      var row = upTo(e.target, "#mList .mi");
-      if(row){
-        var arr=(M.mode==="ext")?M.favExt:M.local;
-        var i=parseInt(row.getAttribute("data-i"),10);
-        if(arr[i]) playItem(arr[i], arr);
+      /* 加号：加进播放栏 */
+      var addBtn = upTo(e.target, ".miAdd");
+      if(addBtn){
+        e.stopPropagation();
+        addToPl(songAt(addBtn.getAttribute("data-from"), parseInt(addBtn.getAttribute("data-add"),10)));
         return;
       }
-      var rr = upTo(e.target, "#mRecList .mi");
-      if(rr){
-        var rl=(M.mode==="ext")?M.recSongs:[];
-        var j2=parseInt(rr.getAttribute("data-i"),10);
-        if(rl[j2]) playItem(rl[j2], rl);
+      /* 抽屉里的歌：点了就播 */
+      var plRow = upTo(e.target, "#mPlList .mi");
+      if(plRow){
+        var pi = parseInt(plRow.getAttribute("data-i"),10);
+        if(M.playlist[pi]){ closeDrawer(); playItem(M.playlist[pi], M.playlist, "playlist"); }
         return;
       }
+      /* 合集卡：进详情 */
       var rc = upTo(e.target, "#mRecs .rc");
       if(rc){
-        var k=parseInt(rc.getAttribute("data-r"),10);
-        if(M.recs[k]) loadRecPlaylist(M.recs[k].id);
+        var k = parseInt(rc.getAttribute("data-r"),10);
+        if(M.recs[k]) openCollection(M.recs[k]);
+        return;
       }
+      /* 其他列表行点了不播（按需求：只有加进播放栏才能播） */
     });
+
+    /* 播放栏 / 抽屉 / 合集 */
+    var qBtn=$("mQueueBtn"); if(qBtn) qBtn.onclick = openDrawer;
+    var dMask=$("mDrawerMask"); if(dMask) dMask.onclick = closeDrawer;
+    var colBack=$("mColBack"); if(colBack) colBack.onclick = closeCol;
+    var colPlay=$("mColPlayBtn"); if(colPlay) colPlay.onclick = toggleCollectionPlay;
 
     /* tab 点击 */
     var tabsEl=$("mTabs");
@@ -5053,6 +5323,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
         if(raw && raw.length) M.favExt = raw;
       }catch(e){}
       var inp=$("mApiBase"); if(inp && !inp.value) inp.value = M.api;
+      try{
+        var pl0 = L("sm_music_pl", []);
+        if(pl0 && pl0.length) M.playlist = pl0;
+      }catch(e){}
+      if(M.source==="collection" && !M.col) M.source = "playlist";
+      renderPl();
       applyMode();
       if(M.mode==="sys"){
         dbAll().then(function(all){
@@ -5067,6 +5343,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
         renderRecs(); renderLists();
       }
       renderSong();
+      if(M.viewCollection && M.col){
+        renderColView();
+        var _v=$("mColView"); if(_v) _v.classList.add("on");
+      }
       tabTo(M.tab, true);
       setTimeout(function(){
         var ink=$("mTabInk");
