@@ -75,12 +75,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
   font-size:11px;font-weight:500;white-space:nowrap}
 /* ===== 主页（ins 版） ===== */
 #pg-home{display:flex;flex-direction:column;overflow:hidden;background:transparent;
-  padding:max(22px,env(safe-area-inset-top)) 24px 6px;
+  padding:6px 24px 16px;
   justify-content:space-between}
 
 /* ① 头像 · 名字 · 签名（整块） */
 .hmMe{flex:0 0 auto;display:flex;align-items:center;gap:17px;padding:2px 0}
-.hmMe .meAv{width:82px;height:82px;flex:0 0 auto;border-radius:50%;
+.hmMe .meAv{width:86px;height:86px;flex:0 0 auto;border-radius:50%;
   background:var(--surface);background-size:cover;background-position:center;
   display:flex;align-items:center;justify-content:center;
   font-size:27px;font-weight:400;color:var(--ink3);
@@ -111,7 +111,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 .hmAnniv .aKick:active{opacity:.6}
 .hmAnniv .aNumRow{display:flex;align-items:flex-end;gap:10px;margin-top:2px}
 .hmAnniv .aNum{display:inline-block;font-family:'Playfair',Georgia,serif;font-weight:700;
-  font-size:76px;line-height:1;letter-spacing:-2.5px;
+  font-size:82px;line-height:1;letter-spacing:-2.6px;
   background:linear-gradient(168deg,var(--ink) 0%,var(--ink2) 46%,var(--ink4) 100%);
   -webkit-background-clip:text;background-clip:text;color:transparent;
   -webkit-text-fill-color:transparent}
@@ -121,7 +121,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 .hmAnniv:active .aNum{opacity:.7}
 
 /* 叠放拍立得（占位） */
-.hmPols{flex:0 0 auto;position:relative;width:132px;height:152px}
+.hmPols{flex:0 0 auto;position:relative;width:138px;height:160px}
 .pol{position:absolute;background:#FFFFFF;border-radius:4px;padding:5px 5px 15px;
   box-shadow:0 9px 22px -13px rgba(0,0,0,.5),0 0 0 .5px rgba(0,0,0,.06);
   -webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
@@ -146,7 +146,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 /* ④ 竖进度 | 唱片 | 歌词 */
 .hmMusic{flex:0 0 auto;display:flex;align-items:center;gap:14px;padding:0}
 
-.hmVol{flex:0 0 auto;width:14px;height:118px;position:relative;cursor:pointer;touch-action:none}
+.hmVol{flex:0 0 auto;width:14px;height:126px;position:relative;cursor:pointer;touch-action:none}
 .hmVolTrack{position:absolute;left:50%;top:0;bottom:0;width:2.5px;margin-left:-1.25px;
   border-radius:2px;background:var(--line)}
 .hmVolFill{position:absolute;left:50%;bottom:0;width:2.5px;margin-left:-1.25px;border-radius:2px;
@@ -157,7 +157,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
   box-shadow:0 1px 4px rgba(0,0,0,.25),0 0 0 .6px var(--line);
   transition:bottom .35s ease}
 
-.hmDiscWrap{width:124px;height:124px;flex:0 0 auto;position:relative;cursor:pointer}
+.hmDiscWrap{width:132px;height:132px;flex:0 0 auto;position:relative;cursor:pointer}
 .hmDisc{position:absolute;inset:0;border-radius:50%;
   background:
     repeating-radial-gradient(circle at 50% 50%,
@@ -187,7 +187,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
   mix-blend-mode:screen}
 
 /* 歌词（正常竖滚，长的自动折行） */
-.hmLyr{flex:1 1 auto;min-width:0;height:124px;overflow-y:auto;overflow-x:hidden;position:relative;
+.hmLyr{flex:1 1 auto;min-width:0;height:132px;overflow-y:auto;overflow-x:hidden;position:relative;
   scrollbar-width:none;-ms-overflow-style:none;
   -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 26%,#000 74%,transparent 100%);
   mask-image:linear-gradient(180deg,transparent 0,#000 26%,#000 74%,transparent 100%)}
@@ -481,23 +481,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 .mArtist{margin-top:5px;text-align:center;font-size:11.5px;color:var(--ink3);letter-spacing:.3px}
 
 /* 长条播放器（拟态） */
-.mBar{margin-top:13px;border-radius:20px;padding:12px 16px 13px;
-  background:linear-gradient(180deg,#FFFFFF 0%,#F4F2EE 100%);
-  box-shadow:0 12px 24px -18px rgba(0,0,0,.5),inset 0 1px 0 #FFFFFF,0 0 0 .5px rgba(0,0,0,.045)}
-.mProg{position:relative;height:3px;border-radius:2px;background:var(--line);cursor:pointer;margin-bottom:11px;touch-action:none}
+.mBar{display:flex;align-items:center;gap:11px;margin-top:16px;
+  border-radius:24px;padding:6px 14px;
+  background:linear-gradient(180deg,#FFFFFF 0%,#F5F3EF 100%);
+  box-shadow:0 10px 22px -18px rgba(0,0,0,.45),inset 0 1px 0 #FFFFFF,0 0 0 .5px rgba(0,0,0,.04)}
+.mProg{position:relative;flex:1 1 auto;min-width:0;height:2.5px;border-radius:2px;
+  background:var(--line);cursor:pointer;touch-action:none;margin:0}
 .mProg::before{content:"";position:absolute;left:0;right:0;top:-10px;bottom:-10px}
 .mProgFill{position:absolute;left:0;top:0;bottom:0;width:0%;border-radius:2px;
   background:linear-gradient(90deg,var(--ink3),var(--ink))}
 .mProgKnob{position:absolute;top:50%;left:0%;width:9px;height:9px;margin:-4.5px 0 0 -4.5px;
   border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.28),0 0 0 .5px rgba(0,0,0,.06)}
-.mCtrls{display:flex;align-items:center;justify-content:center;gap:20px}
-.mBtn{width:36px;height:36px;border:none;background:transparent;color:var(--ink);
+.mBtn{width:30px;height:30px;flex:0 0 auto;border:none;background:transparent;color:var(--ink);
   display:flex;align-items:center;justify-content:center;padding:0;border-radius:50%;
   transition:transform .16s ease,background .2s}
 .mBtn:active{transform:scale(.9)}
-.mBtn.big{width:46px;height:46px;border-radius:50%;
-  background:linear-gradient(180deg,#FFFFFF,#F0EDE8);
-  box-shadow:0 6px 12px -7px rgba(0,0,0,.4),inset 0 1px 0 #fff,0 0 0 .5px rgba(0,0,0,.06)}
+.mBtn.big{width:38px;height:38px;border-radius:50%;
+  background:linear-gradient(180deg,#FFFFFF,#F1EEE9);
+  box-shadow:0 5px 11px -7px rgba(0,0,0,.38),inset 0 1px 0 #fff,0 0 0 .5px rgba(0,0,0,.06)}
 /* 收藏爱心：没收藏是线，收藏了填充+粉+立体 */
 .mFav{color:var(--ink3)}
 .mFav.on{color:#E8869C}
@@ -630,10 +631,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 
 
 /* —— 播放栏 / 抽屉 —— */
-.mCtrls{position:relative}
-.mQueueBtn{position:absolute;right:0;top:50%;margin-top:-14px;width:28px;height:28px;
-  border:none;background:transparent;color:var(--ink3);display:flex;align-items:center;
-  justify-content:center;padding:0;border-radius:8px}
+.mQueueBtn{width:28px;height:28px;flex:0 0 auto;border:none;background:transparent;
+  color:var(--ink3);display:flex;align-items:center;justify-content:center;padding:0;border-radius:8px}
 .mQueueBtn:active{background:var(--surface)}
 .miAdd{width:26px;height:26px;flex:0 0 auto;border-radius:50%;border:none;background:var(--surface);
   color:var(--ink2);margin-left:4px;display:flex;align-items:center;justify-content:center;padding:0;
@@ -660,11 +659,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 .mDrawerList{flex:1 1 auto;min-height:0;overflow-y:auto;padding:0 12px 20px}
 
 /* —— 合集详情 —— */
-.mColView{position:absolute;inset:0;z-index:60;display:flex;flex-direction:column;
+.mColView{position:absolute;top:0;right:0;bottom:0;left:0;z-index:60;
+  display:flex;flex-direction:column;
   will-change:opacity,transform;
-  background:var(--bg);opacity:0;pointer-events:none;transform:translateX(30px);
+  background:var(--bg);opacity:0;visibility:hidden;pointer-events:none;
+  transform:translateX(30px);
   transition:opacity .28s ease,transform .38s cubic-bezier(.22,.9,.28,1)}
-.mColView.on{opacity:1;pointer-events:auto;transform:none}
+.mColView.on{opacity:1;visibility:visible;pointer-events:auto;transform:none}
 .mColTop{position:relative;flex:0 0 37%;overflow:hidden}
 .mColBg{position:absolute;inset:-12%;background-size:cover;background-position:center;
   background-color:var(--surface);filter:blur(22px);
@@ -880,27 +881,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
         <div class="mSong" id="mSong">还没有在放</div>
         <div class="mArtist" id="mArtist">挑一首吧</div>
         <div class="mBar">
+          <button class="mQueueBtn" id="mQueueBtn" aria-label="播放栏">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4.2 7h15.6M4.2 12h15.6M4.2 17h9.4"/></svg>
+            </button>
           <div class="mProg" id="mProg">
             <div class="mProgFill" id="mProgFill"></div>
             <div class="mProgKnob" id="mProgKnob"></div>
           </div>
-          <div class="mCtrls">
-            <button class="mBtn" id="mPrev" aria-label="上一首">
+          <button class="mBtn" id="mPrev" aria-label="上一首">
               <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><rect x="4.4" y="6" width="1.9" height="12" rx="0.95"/><path d="M19.2 6.4c0-.6-.7-1-1.2-.6l-8 5.6c-.4.3-.4.9 0 1.2l8 5.6c.5.4 1.2 0 1.2-.6z"/></svg>
             </button>
-            <button class="mBtn big" id="mPlay" aria-label="播放">
+          <button class="mBtn big" id="mPlay" aria-label="播放">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" id="mPlayIco"><path d="M8.4 5.6c0-.7.8-1.1 1.4-.7l9 6.4c.5.4.5 1 0 1.4l-9 6.4c-.6.4-1.4 0-1.4-.7z"/></svg>
             </button>
-            <button class="mBtn" id="mNext" aria-label="下一首">
+          <button class="mBtn" id="mNext" aria-label="下一首">
               <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><rect x="17.7" y="6" width="1.9" height="12" rx="0.95"/><path d="M4.8 6.4c0-.6.7-1 1.2-.6l8 5.6c.4.3.4.9 0 1.2l-8 5.6c-.5.4-1.2 0-1.2-.6z"/></svg>
             </button>
-            <button class="mBtn mFav" id="mFav" aria-label="收藏">
+          <button class="mBtn mFav" id="mFav" aria-label="收藏">
               <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path class="heartFill" d="M12 20.1s-7.3-4.5-7.3-9.3A4.35 4.35 0 0 1 12 7.7a4.35 4.35 0 0 1 7.3 3.1c0 4.8-7.3 9.3-7.3 9.3z" fill="currentColor" stroke="none"/><path d="M12 20.1s-7.3-4.5-7.3-9.3A4.35 4.35 0 0 1 12 7.7a4.35 4.35 0 0 1 7.3 3.1c0 4.8-7.3 9.3-7.3 9.3z"/></svg>
             </button>
-            <button class="mQueueBtn" id="mQueueBtn" aria-label="播放栏">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4.2 7h15.6M4.2 12h15.6M4.2 17h9.4"/></svg>
-            </button>
-          </div>
         </div>
       </div>
 
@@ -5146,6 +5145,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
         var pl = j && j.playlist;
         if(!pl){ toast("合集取不到"); return; }
         var all = pl.tracks || [];
+        if(!all.length && pl.trackIds && pl.trackIds.length){
+          toast("这个合集取不到歌曲列表");
+        }
+        if(!all.length){
+          toast("这个合集是空的");
+          return;
+        }
         var muted = all.length > 100 ? all.length : 0;
         var songs = all.slice(0,100).map(function(t){
           return { id:t.id, name:t.name, artist:(t.ar&&t.ar[0]&&t.ar[0].name)||"未知",
