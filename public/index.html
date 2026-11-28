@@ -305,7 +305,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
   color:var(--ink);letter-spacing:.9px}
 .thCn{font-size:10.5px;color:var(--ink4);letter-spacing:1.2px}
 .thPrev{width:100%;aspect-ratio:3/4;border-radius:16px;background:var(--surface);
-  background-size:cover;background-position:center;
+  background-size:contain;background-position:center;background-repeat:no-repeat;
   box-shadow:inset 0 0 0 .6px var(--line),0 14px 30px -22px rgba(0,0,0,.55)}
 .thOps{display:flex;gap:10px;margin-top:14px}
 .thBtn{flex:1;height:38px;border-radius:12px;border:none;
@@ -337,6 +337,9 @@ body[data-wall="1"] .sysTag{background:rgba(255,255,255,.5)}
 body[data-wall="1"] .pol{background:rgba(255,255,255,.66)}
 body[data-wall="1"] .polImg{background:rgba(255,255,255,.22)}
 body[data-wall="1"] .hmMe .meAv{background:rgba(255,255,255,.5)}
+body[data-wall="1"] .entIco{background:rgba(255,255,255,.52);
+  box-shadow:inset 0 0 0 .6px rgba(255,255,255,.6)}
+body[data-wall="1"] .entItem:active .entIco{background:rgba(255,255,255,.74)}
 /* 音乐 */
 body[data-wall="1"] .mBar{background:rgba(255,255,255,.6);
   box-shadow:0 10px 22px -18px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.85),0 0 0 .5px rgba(255,255,255,.5)}
@@ -4596,7 +4599,7 @@ body[data-wall="1"] .thPrev{background:rgba(255,255,255,.3)}
     if(bg){
       if(P.wallpaper){
         bg.style.backgroundImage = 'url("'+P.wallpaper+'")';
-        bg.style.backgroundSize = "cover";
+        bg.style.backgroundSize = "contain";
         bg.style.backgroundPosition = "center";
         bg.style.backgroundRepeat = "no-repeat";
         document.body.setAttribute("data-wall","1");
