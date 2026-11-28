@@ -153,7 +153,30 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
 /* ===== 相册卡 + 银色唱片 ===== */
 .hmMusic{flex:0 0 auto;margin-top:auto;padding-top:6px}
 .ins-echo{position:relative;width:100%;isolation:isolate;color:#c99aab}
-.echo-scene{position:relative;height:188px}
+.echoBar{margin-top:14px;display:flex;align-items:center;gap:10px;padding:7px 12px;
+  border-radius:19px;background:rgba(255,255,255,.42);
+  border:1px solid rgba(255,255,255,.72);
+  box-shadow:0 10px 22px -18px rgba(180,125,145,.55),inset 0 1px 0 rgba(255,255,255,.92)}
+.eBtn,.ePlay{width:32px;height:32px;flex:0 0 auto;border-radius:50%;border:none;padding:0;
+  display:flex;align-items:center;justify-content:center;color:#C48CA0;
+  background:linear-gradient(160deg,#FFFFFF 0%,#FDEFF4 55%,#F6DBE5 100%);
+  box-shadow:0 3px 7px -4px rgba(180,120,145,.55),
+             inset 0 1px 0 rgba(255,255,255,.98),
+             inset 0 -1px 0 rgba(218,178,194,.45);
+  transition:transform .14s,box-shadow .14s}
+.eBtn:active,.ePlay:active{transform:scale(.92);
+  box-shadow:inset 0 2px 6px rgba(200,150,170,.3),inset 0 -1px 0 rgba(255,255,255,.55)}
+.ePlay{width:38px;height:38px;color:#BC7F96}
+.ePlay.on{color:#DE8AA6}
+.eProg{position:relative;flex:1 1 auto;min-width:0;height:2px;border-radius:2px;
+  background:rgba(238,196,212,.38);touch-action:none}
+.eProg::before{content:"";position:absolute;left:0;right:0;top:-9px;bottom:-9px}
+.eFill{position:absolute;left:0;top:0;bottom:0;width:42%;border-radius:2px;
+  background:linear-gradient(90deg,#FBD9E4 0%,#E9A0BB 100%)}
+.eKnob{position:absolute;top:50%;left:42%;width:8px;height:8px;margin:-4px 0 0 -4px;
+  border-radius:50%;background:#fff;
+  box-shadow:0 1px 4px rgba(200,140,165,.55),0 0 0 .5px rgba(222,172,192,.6)}
+.echo-scene{position:relative;height:180px}
 .echo-ghost{position:absolute;z-index:1;left:10px;top:16px;width:46%;height:164px;
   border:1px solid rgba(255,255,255,.9);border-radius:12px;
   background:linear-gradient(140deg,rgba(255,255,255,.7),rgba(253,232,239,.32));
@@ -164,13 +187,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue"
   box-shadow:4px 9px 20px rgba(190,140,160,.22);
   transform:rotate(-5deg);cursor:pointer;overflow:hidden}
 .echo-photo img{display:block;width:100%;height:100%;object-fit:cover;
-  object-position:50% 29%;border-radius:7px;background:rgba(255,255,255,.35);
-  filter:saturate(.42) contrast(.98)}
+  object-position:50% 29%;border-radius:7px;background:rgba(255,255,255,.35)}
 .echo-photo figcaption{position:absolute;bottom:5px;left:11px;right:11px;display:flex;
   justify-content:flex-start;font-size:9px;letter-spacing:1.7px;color:#c99aa8;
   font-family:'Playfair',Georgia,serif;font-style:italic;font-size:21px;
   line-height:1;text-transform:lowercase;top:auto}
-.echo-record-wrap{position:absolute;z-index:2;right:0;top:12px;width:56%;aspect-ratio:1;
+.echo-record-wrap{position:absolute;z-index:2;right:-2px;top:1px;width:58%;aspect-ratio:1;
   border-radius:50%;box-shadow:5px 8px 20px rgba(130,144,170,.18);cursor:pointer}
 .echo-record{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(255,255,255,.9);
   background:
@@ -498,7 +520,10 @@ body[data-wall="1"] .thPrev{background:rgba(255,255,255,.3)}
   padding:0 38px calc(12px + env(safe-area-inset-bottom))}
 #tabbar .inner{
   height:50px;border-radius:18px;position:relative;
-  background:var(--card-bg);
+  background:rgba(255,253,254,.96);
+  -webkit-backdrop-filter:blur(18px) saturate(1.2);
+  backdrop-filter:blur(18px) saturate(1.2);
+  will-change:transform;
   border:.5px solid var(--line);
   box-shadow:0 14px 30px -24px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.95);
   display:flex;align-items:center;padding:0 4px;
@@ -581,17 +606,17 @@ body[data-wall="1"] .thPrev{background:rgba(255,255,255,.3)}
 
 /* —— 播放器 —— */
 .mPlayer{flex:0 0 auto;padding:0 18px}
-.mCards{position:relative;height:150px;perspective:900px;-webkit-perspective:900px}
-.mCard{position:absolute;left:50%;top:6px;width:112px;height:128px;margin-left:-56px;
+.mCards{position:relative;height:168px;perspective:900px;-webkit-perspective:900px}
+.mCard{position:absolute;left:50%;top:6px;width:126px;height:144px;margin-left:-63px;
   background:#fff;border-radius:6px;padding:6px 6px 17px;
   box-shadow:0 14px 26px -16px rgba(0,0,0,.55),0 0 0 .5px rgba(0,0,0,.05);
   transform-origin:50% 100%;
   transition:transform .52s cubic-bezier(.22,.9,.28,1),opacity .4s ease}
 .mCard .cov{width:100%;height:100%;border-radius:3px;
-  background:linear-gradient(160deg,#EDEBE7,#D6D2CB);background-size:cover;background-position:center}
+  background:linear-gradient(160deg,#FFF6F9,#F3DCE5);background-size:cover;background-position:center}
 .mCard.main{transform:translateZ(30px) translateY(-2px);z-index:3}
-.mCard.l{transform:translateX(-72px) rotateY(30deg) scale(.86);opacity:.9;z-index:2}
-.mCard.r{transform:translateX(72px) rotateY(-30deg) scale(.86);opacity:.9;z-index:2}
+.mCard.l{transform:translateX(-80px) rotateY(30deg) scale(.86);opacity:.9;z-index:2}
+.mCard.r{transform:translateX(80px) rotateY(-30deg) scale(.86);opacity:.9;z-index:2}
 .mCard.l.dim,.mCard.r.dim{opacity:.35}
 
 .mSong{margin-top:12px;text-align:center;font-size:15px;font-weight:600;color:var(--ink);
@@ -599,11 +624,11 @@ body[data-wall="1"] .thPrev{background:rgba(255,255,255,.3)}
 .mArtist{margin-top:5px;text-align:center;font-size:11.5px;color:var(--ink3);letter-spacing:.3px}
 
 /* 长条播放器（拟态） */
-.mBar{display:flex;align-items:center;gap:11px;margin-top:16px;
+.mBar{display:flex;align-items:center;gap:11px;margin-top:18px;
   border-radius:24px;padding:6px 14px;
-  background:linear-gradient(180deg,#FFFFFF 0%,#F5F3EF 100%);
+  background:linear-gradient(180deg,#FFFDFE 0%,#FCEFF4 100%);
   box-shadow:0 10px 22px -18px rgba(0,0,0,.45),inset 0 1px 0 #FFFFFF,0 0 0 .5px rgba(0,0,0,.04)}
-.mProg{position:relative;flex:1 1 auto;min-width:0;height:2.5px;border-radius:2px;
+.mProg{position:relative;flex:1 1 auto;min-width:0;height:2px;border-radius:2px;
   background:var(--line);cursor:pointer;touch-action:none;margin:0}
 .mProg::before{content:"";position:absolute;left:0;right:0;top:-10px;bottom:-10px}
 .mProgFill{position:absolute;left:0;top:0;bottom:0;width:0%;border-radius:2px;
@@ -615,7 +640,7 @@ body[data-wall="1"] .thPrev{background:rgba(255,255,255,.3)}
   transition:transform .16s ease,background .2s}
 .mBtn:active{transform:scale(.9)}
 .mBtn.big{width:38px;height:38px;border-radius:50%;
-  background:linear-gradient(180deg,#FFFFFF,#F1EEE9);
+  background:linear-gradient(180deg,#FFFFFF,#FBEEF3);
   box-shadow:0 5px 11px -7px rgba(0,0,0,.38),inset 0 1px 0 #fff,0 0 0 .5px rgba(0,0,0,.06)}
 /* 收藏爱心：没收藏是线，收藏了填充+粉+立体 */
 .mFav{color:var(--ink3)}
@@ -684,8 +709,9 @@ body[data-wall="1"] .thPrev{background:rgba(255,255,255,.3)}
 .mSegItem{flex:1 1 0;height:36px;display:flex;align-items:center;justify-content:center;
   font-size:12.5px;color:var(--ink3);position:relative;z-index:2;transition:color .25s;border-radius:10px}
 .mSegItem.on{color:var(--ink);font-weight:600}
-.mSegInk{position:absolute;top:3px;bottom:3px;left:3px;width:calc(50% - 3px);border-radius:10px;
-  background:var(--bg);box-shadow:0 1px 5px rgba(0,0,0,.10),0 0 0 .5px rgba(0,0,0,.03);
+.mSegInk{position:absolute;top:5px;bottom:5px;left:5px;width:calc(50% - 5px);border-radius:9px;
+  background:#FFFFFF;
+  box-shadow:0 1px 5px rgba(190,140,160,.14),0 0 0 .5px rgba(210,170,185,.18);
   transition:left .42s cubic-bezier(.34,1.56,.64,1),width .42s cubic-bezier(.34,1.56,.64,1)}
 .mFieldWrap{padding:18px 8px 0}
 .mFieldLab{font-size:10px;color:var(--ink4);letter-spacing:1.4px;text-transform:uppercase;
@@ -882,10 +908,35 @@ body[data-wall="1"] .thPrev{background:rgba(255,255,255,.3)}
               <img id="echoImg" alt="">
               <figcaption><span class="echo-love">love</span></figcaption>
             </figure>
-            <svg class="echo-clip" viewBox="0 0 26 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M19.4 12.6v30.2a7.2 7.2 0 0 1-14.4 0V15.4a4.8 4.8 0 0 1 9.6 0v26.6"/></svg>
+            <svg class="echo-clip" viewBox="0 0 26 64" fill="none">
+              <defs>
+                <linearGradient id="clipG" x1="3" y1="4" x2="23" y2="58" gradientUnits="userSpaceOnUse">
+                  <stop offset="0" stop-color="#FFFFFF"/>
+                  <stop offset=".28" stop-color="#FBE6EE"/>
+                  <stop offset=".52" stop-color="#D9AFBF"/>
+                  <stop offset=".74" stop-color="#F6DFE8"/>
+                  <stop offset="1" stop-color="#FFFFFF"/>
+                </linearGradient>
+              </defs>
+              <path d="M19.4 12.6v30.2a7.2 7.2 0 0 1-14.4 0V15.4a4.8 4.8 0 0 1 9.6 0v26.6"
+                    stroke="url(#clipG)" stroke-width="2.6" stroke-linecap="round"/>
+              <path d="M17.3 14v28.4" stroke="#FFFFFF" stroke-width=".7" stroke-linecap="round" opacity=".85"/>
+            </svg>
             <span class="echo-spark one"><svg viewBox="0 0 30 44" fill="none"><path d="M15 1C14 18 11 20 1 22c10 2 13 4 14 21 1-17 4-19 14-21C19 20 16 18 15 1Z" fill="currentColor"/></svg></span>
             <span class="echo-spark two"><svg viewBox="0 0 30 44" fill="none"><path d="m15 2 3 16 10 4-10 4-3 16-3-16-10-4 10-4Z" stroke="currentColor" stroke-width="1.2"/></svg></span>
             <svg class="echo-dangle" viewBox="0 0 37 66" fill="none"><path d="M22 1C7 13 30 28 17 41" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2"/><ellipse cx="16" cy="47" rx="7" ry="9" transform="rotate(25 16 47)" stroke="currentColor" stroke-width="1.5"/><ellipse cx="12" cy="55" rx="6" ry="8" transform="rotate(25 12 55)" stroke="currentColor" stroke-width="1.5"/></svg>
+          </div>
+          <div class="echoBar">
+            <button class="eBtn" id="echoPrev" aria-label="上一首">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><rect x="4.4" y="6" width="1.9" height="12" rx=".95"/><path d="M19.2 6.4c0-.6-.7-1-1.2-.6l-8 5.6c-.4.3-.4.9 0 1.2l8 5.6c.5.4 1.2 0 1.2-.6z"/></svg>
+            </button>
+            <div class="eProg" id="echoProg"><div class="eFill" id="echoFill"></div><div class="eKnob" id="echoKnob"></div></div>
+            <button class="ePlay" id="echoPlay" aria-label="播放">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" id="echoPlayIco"><path d="M8.4 5.6c0-.7.8-1.1 1.4-.7l9 6.4c.5.4.5 1 0 1.4l-9 6.4c-.6.4-1.4 0-1.4-.7z"/></svg>
+            </button>
+            <button class="eBtn" id="echoNext" aria-label="下一首">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><rect x="17.7" y="6" width="1.9" height="12" rx=".95"/><path d="M4.8 6.4c0-.6.7-1 1.2-.6l8 5.6c.4.3.4.9 0 1.2l-8 5.6c-.5.4-1.2 0-1.2-.6z"/></svg>
+            </button>
           </div>
           <div class="hmVol" id="hmVol" style="display:none"><div class="hmVolFill" id="hmVolFill"></div><div class="hmVolKnob" id="hmVolKnob"></div></div>
           <div class="hmLyr" id="hmLyr" style="display:none"><ul id="hmLyrics"></ul></div>
@@ -4833,10 +4884,14 @@ body[data-wall="1"] .thPrev{background:rgba(255,255,255,.3)}
     function start(){ stop(); timer = setInterval(tick, 3200); }
     function stop(){ if(timer){ clearInterval(timer); timer = null; } }
 
+    var P_ICO = '<path d="M8.4 5.6c0-.7.8-1.1 1.4-.7l9 6.4c.5.4.5 1 0 1.4l-9 6.4c-.6.4-1.4 0-1.4-.7z"/>';
+    var S_ICO = '<rect x="7.4" y="5.6" width="3.6" height="12.8" rx="1.4"/><rect x="13" y="5.6" width="3.6" height="12.8" rx="1.4"/>';
     function setPlaying(b){
       paused = !b;
       var sc = $("echoScene");
       if(sc){ if(paused) sc.classList.remove("is-playing"); else sc.classList.add("is-playing"); }
+      var ico = $("echoPlayIco"); if(ico) ico.innerHTML = paused ? P_ICO : S_ICO;
+      var pb = $("echoPlay"); if(pb) pb.classList.toggle("on", !paused);
       if(paused) stop(); else start();
     }
     function setProg(v){
@@ -4845,6 +4900,9 @@ body[data-wall="1"] .thPrev{background:rgba(255,255,255,.3)}
       var f = $("hmVolFill"), k = $("hmVolKnob");
       if(f) f.style.height = (v*100) + "%";
       if(k) k.style.bottom = (v*100) + "%";
+      var ef = $("echoFill"), ek = $("echoKnob");
+      if(ef) ef.style.width = (v*100) + "%";
+      if(ek) ek.style.left = (v*100) + "%";
     }
 
     /* 竖进度：点/拖 都能改 */
@@ -4861,6 +4919,21 @@ body[data-wall="1"] .thPrev{background:rgba(255,255,255,.3)}
       volEl.addEventListener("pointerup", function(){ dragging = false; });
       volEl.addEventListener("pointercancel", function(){ dragging = false; });
     }
+
+    /* 控制条 */
+    var epb = $("echoPlay");
+    if(epb) epb.onclick = function(){
+      var next = paused;
+      setPlaying(next);
+      if(window.SMPlayer && window.SMPlayer._onToggle) window.SMPlayer._onToggle(!paused);
+    };
+    var epr = $("echoProg");
+    if(epr) epr.onclick = function(e){
+      var r = epr.getBoundingClientRect();
+      var v = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
+      setProg(v);
+      if(window.SMPlayer && window.SMPlayer._onSeek) window.SMPlayer._onSeek(v);
+    };
 
     /* 唱片：点一下 暂停/继续 */
     var wrap = $("echoDisc");
@@ -5404,7 +5477,7 @@ body[data-wall="1"] .thPrev{background:rgba(255,255,255,.3)}
         segs[i].classList.toggle("on", segs[i].getAttribute("data-mode")===M.mode);
       }
       var ink=$("mSegInk");
-      if(ink) ink.style.left = (M.mode==="ext" ? "3px" : "calc(50% + 0px)");
+      if(ink) ink.style.left = (M.mode==="ext" ? "5px" : "50%");
       var ext=$("mExtBox"), sys=$("mSysBox");
       if(ext) ext.hidden = (M.mode!=="ext");
       if(sys) sys.hidden = (M.mode!=="sys");
